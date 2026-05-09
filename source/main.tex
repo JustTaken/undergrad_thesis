@@ -1,6 +1,6 @@
 \environment[header]
 
-\mainlanguage[en]
+\mainlanguage[pt-br]
 
 \setvariables[metadata][
     author={João Pedro Câmara Borges},
@@ -8,6 +8,11 @@
 redes neurais para monitoramento de processos fermentativos},
     date={2026},
 ]
+
+\definebtxdataset[ref]
+\usebtxdataset[ref][source/reference.bib]
+\definebtxrendering[ref][apa][dataset=ref]
+\loadbtxdefinitionfile[apa]
 
 \def\emdash{
     ---
@@ -19,6 +24,12 @@ redes neurais para monitoramento de processos fermentativos},
     \stopfrontmatter
 
     \startbodymatter
-        \input{source/review_correct.tex}
+        \input{source/review.tex}
     \stopbodymatter
+
+    \startbackmatter
+        \startchapter[title={Referencias}]
+            \placebtxrendering[ref][method=dataset]
+        \stopchapter
+    \stopbackmatter
 \stoptext
