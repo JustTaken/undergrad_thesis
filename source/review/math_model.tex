@@ -1,11 +1,56 @@
 \startsection[title={Modelagem matemática}]
-  Modelagem de \getbuffer[sens] tem por objetivo agregar variáveis de entrada, juntamente com o potêncial dessas variáveis de carregar informações sobre o processo, e devolver na saída características de qualidade do processo \cite[authoryear][ref::yang_0].
+  \writestatus{INFO}{Text width = \the\hsize}
+  Monitorar e controlar processo industriais é em certa medida a principal atividade dos sensores físicos. Porem, devido a grande quantidade de informação que esses sensores conseguem carregar para fora do sistema, é possivel levar esses dados em consideração em interpretações mais abstratas do processo. A construção de um modelo preditivo de qualidae do processo é uma das possibilidades contempladas pela interpretação do contexto geral dado pelos sensores físicos, esses modelos são denominados \getbuffer[sens]. Este termo é derivado da combinação entre as palavras {\emph software} e {\emph sensor}, dado o sentido da existencia de um sensor pautado em uma lógica programada ao inves da sensibilidade de um material partindo diretamente de um princípio físico.
 
-  \startitemize[n]
-    \item{partial least square}
-    \item{multiple linear regression}
-    \item{recurrent neural networks}
-    \item{long-term and short-term memory}
+  {\emph Soft sensors} podem ser distinguidos em duas classes, a primeira é centrada em dados, nomeada {\emph data-driven} e a segunda formada por uma descrição completa de um modelo físico-químico, denominada {\emph model-driven}. Estas duas classes são fundamentalmente distintas, podendo ser situadas nos extremos de um espectro de implementação fenomenologico do sistema. {\emph Data-driven} foca sua capacidade computacional em entender a correlação dos dados de entrada com o termo de qualidade na saida so sistema, enquanto aplicações {\emph model-driven} necessita de uma modelagem dos princípios físicos e químicos acontecendo no plano de fundo do processo, e sua correlação matemática com os parâmetros de qualidade de saida do sistema. Consequentemente, a aplicação de {\emph model-driven} \getbuffer[sens] é tecnicamente dificultada por definição, fazendo com que a maior parte das implementações sejam voltadas para modelos pautados em variáveis de processos de entrada. Portanto, neste trabalho, quando referenciado \getbuffer[sens] lê-se {\emph data-driven} \getbuffer[sens], exceto quando devidamente especificado.
+
+  {\emph \bf Espectro dos modelos de soft sensors entre model-driven e data-driven comparando com modelos white-box, gray-box e black-box}
+
+  Modelagem de \getbuffer[sens] tem por objetivo agregar variáveis de entrada, juntamente com o potêncial dessas variáveis de carregar informações sobre o processo, e devolver na saída características de qualidade do processo \cite[authoryear][ref::yang_0]. Ou tambem sinalizar desvios de idealidade, informando ao operador problemas ocorridos no processo, possibilitando uma detecção automatizada de problemas difíceis de serem encontrados \cite[authoryear][ref::kadlec_0]. Esta ultima prerrogativa é especialmente util quando trata-se de processos continuos, nos quais o reator encontra-se idealmente em regime permanente, porem dada a presença de microorganismos há imprevisibilidade quanto a resposta aos minímos estimulos que fogem da idealidade, ou mesmo uma resposta átipica a condições ideais de operação devido ao estress acumulado pela cultura. Com um modelo treinado em especificidades como essa, é possivel que haja uma predição da problematica antes memos que o curso divergente seja capaz de causar maiores danos na produtividade ou na composição de saida.
+
+  Sobre os problemas encontrados em implementações de \getbuffer[sens] pode-se destacar dificuldades com tratamento de medições com ruido, ou fora do padrão e colinearidade entre variáveis \cite[authoyear][ref::kadlec_0]. Suas resoluções são geralmente tratadas com interferência manual sobre os parametros, modelo e coordenadas utilizadas no desenvolvimento da aplicação, a fim de remover pontos fora da curva esperada e como tambem excluir interdependência entre variáveis de entrada. Essas soluções se dão principalmente devido ao entendimento do processo, e dificilmente poderiam ser de outra forma (CITAÇAO).
+
+  O formato dos dados esperados para a contrução dos modelos de \getbuffer[sens] são separados em conjunto de entrada \math{X} e conjunto alvo \math{Y}, formando o conjunto de dados \math{S}.
+
+  \startplaceformula[reference={eq:data_set}]
+    \startformula
+      S = \left\lbrace \left\lparen X, Y \right\rparen \right\rbrace
+    \stopformula
+  \stopplaceformula
+
+  Na \in{Equação}[eq:data_set] observa-se os conjuntos mencionados, dos quais as iterações programaticas do algoritimo particular tem por objetivo aproximar uma função alvo \math{f} que transforma \math{X} em \math{Y}, da forma que aparece na \in{Equação}[eq:data_set_train]. A dimensão vetorial dos elementos de \math{X} e \math{Y}, vão depender da quantidade de variáveis medidas em cada uma das amostragems. Ou seja, \math{\vec{x}} pode ser um elemento de \math{X} com dimensão \math{m} e \math{\vec{y}} um elemento de \math{Y} com dimensão \math{\gamma}. Os elementos do conjunto de entrada \math{X} e do conjunto de saida \math{Y} não possuem qualquer correlação dimensional, porem esses conjuntos compartilham a necessidade de possuir a mesma quantidade de elementos para que o espaço amostral seja valido, visando a formação de pares \math{(\vec{x}, \vec{y}) \in S} para definição da função \math{f}.
+
+  \startplaceformula[reference={eq:data_set_train}]
+    \startformula
+      f : X \rightarrow Y
+    \stopformula
+  \stopplaceformula
+
+  Lê-se na \in{Equação}[eq:data_set_train] uma aplicação \math{f} que leva do conjunto \math{X} ao conjunto \math{Y}. Percebe-se implicitamente pela definição apresentada que \math{f} é desconhecida inicialmente, e toda a teoria desenvolvida em torno de \getbuffer[sens] tem por objetivo encontra-la, mesmo que por trás de uma caixa preta.
+
+  \startitemize
+    \starthead{Multiple linear regression} 
+      Este modelo é considerado estatístico classico. Baseia-se em um método de ajuste de coeficientes para um função linear pré-definida da forma da \in{Equação}[eq:regresssion], pautada nos principios de minimização de erros quadrados.
+
+      \startplaceformula[reference={eq:regresssion}]
+        \startformula
+          y = \beta_{0} + \sum_{j=1}^{n} \beta_{j} x_{i j}
+        \stopformula
+      \stopplaceformula
+
+    \stophead
+
+    \starthead{multilayer perceptron}
+    \stophead
+
+    \starthead{partial least square}
+    \stophead
+
+    \starthead{recurrent neural networks}
+    \stophead
+
+    \starthead{long-term and short-term memory}
+    \stophead
   \stopitemize
 \stopsection
 

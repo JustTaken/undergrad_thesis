@@ -1,7 +1,15 @@
 \startsection[title={Sistema de controle}]
-  Controlar o curso do processo fermentativo em um bioreator é essencial para o sucesso de um procedimento passivel de ser replicado ou otimizado. Isso pode ser realizado somente com o auxilio de um sistema de controle robusto, onde variáveis como temperatura, pH, pressão ou concentracão de alguma espécie química precisam ser monitoradas e modificadas direta ou indiretamente sob o pretexto de manutenção de um ambiente propício ao crescimento da cultura ou consumo de substrato.
+  Controlar o curso do processo fermentativo em um bioreator é essencial para o sucesso de um procedimento passivel de ser replicado ou otimizado. Isso pode ser realizado somente com o auxilio de um sistema de controle robusto, onde variáveis como temperatura, pH ou concentracão de alguma espécie química precisam ser monitoradas e modificadas direta ou indiretamente sob o pretexto de manutenção de um ambiente propício ao crescimento da cultura ou consumo de substrato.
 
   O ponto de operação ou {\emph set point} de cada uma das variáveis controladas, tem de ser definido para o experimento, ou processo conduzido em dado momento. Mas para atingir o objetivo primeiro de monitorar essas variáveis, tem-se de adiquirir sensores específicos e, em seguida, integra-los no sistema de controle.
+
+  \startplacefigure[title={Esquematico de um bioreator fermentativo}, reference={fig:bioreactor_control}]
+    \externalfigure[image/bioreactor_control.png][height=200pt]
+  \stopplacefigure
+
+  Um digrama de processo é mostrado na \in{Figura}[fig:bioreactor_control], em que ve-se a direita o controlador recebendo sinais dos sensores de temperatura \math{T}, espuma, \chemical{pH}, \chemical{O_{2}} e vazão de entrada de ar \math{Q_{air}}, e respondendo segundo a lógica de funcionamento do sistema em torno dos {\emph set points} para as valvulas, bombas peristalticas, aquecedor e rotor. A entrada de ar é responsável pela alimentação de gases, importantes para o metabolismo dos microorganismos, \chemical{O_{2}} para fermentação aeróbica. O controle do \chemical{pH} acontece sob atuação da bomba peritaltica interconectadas com resenvatórios de ácido e base, em função do desvio de ácidez do sistema interno, assim como o antiespuma, que é injetado em resposta ao aumento de espuma. Alimentação de substrato pela bomba peristaltica, acontece segundo a politica de alimentação do experimento, podendo ser intercalda, ou única.
+
+  Ainda na \in{Figura}[fig:bioreactor_control] a temperatura interna pode ser controlada a partir do fluxo de água, que entra resfriada pronta para reduzir a temperatura interna do bioreator, ou disponível para aquecimento quando circula pelo aquecedor ativado segundo o comando do controlador, a depender da temperatura interna.
 
   Cada variante de microorganismo fermentador possui uma região de temperatura preferida para a manutenção das suas atividades metabolicas, ou mesmo, do seu crescimento e existencia no broto, portanto, tratam-se variantes em um espectro de temperatura. Elas podem ser classificadas como mesofílicas, termofílicas ou termofílicas extremas, sendo cada uma dessas denominações responsável pela representatividade da faixa de temperatura obrigatória da variante.
 
@@ -10,7 +18,5 @@
   Além da alta sensibilidade a temperatura, os microorganismos fermentativos tambem possuem sensibilidade ao pH. A depender do intervalo de pH do experimento, pode não haver nenhuma atividade metabolica voltada para produção de algum composto, por parte de algumas variantes, ou seja, caracterizando inibição de rotas, ou de todo metabolismo dessas variantes.
 
   {\emph \bf Gráfico do comportamento inibitorio do pH na conversão para um dada cultura pura}
-
-  %Pressão?
 \stopsection
 
