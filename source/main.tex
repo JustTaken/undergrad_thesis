@@ -1,9 +1,6 @@
 \environment[header]
 \environment[math]
 
-\usemodule[handlecsv]
-\setsep{,}
-
 \mainlanguage[pt-br]
 
 \setvariables[metadata][
@@ -11,15 +8,52 @@
     title={Desenvolvimento de soft sensors baseados em redes neurais para monitoramento de processos fermentativos},
     date={2026},
 ]
+
 % \setupitemize[headcolor=red]
 \setupitemize[1][symbol=blacksquare]
 \setupitemize[2][symbol=circle, width=1.5ex]
 \setupitemize[2][nowhite]
 
+\setupTABLE[frame=off]
+\setupTABLE[r][1][topframe=on, bottomframe=on, style=\bf]
+\setupTABLE[r][last][bottomframe=on]
+\setupTABLE[align=middle]
+\setupTABLE[c][1][align=flushleft]
+
 \definebtxdataset[ref]
 \usebtxdataset[ref][source/reference.bib]
 \definebtxrendering[ref][apa][dataset=ref]
 \loadbtxdefinitionfile[apa]
+
+\startluacode
+  csvtable = require("source/csvtable.lua")
+\stopluacode
+
+\startbuffer[data]
+  {\emph data-driven}%
+\stopbuffer
+
+\startbuffer[model]
+  {\emph model-driven}%
+\stopbuffer
+
+\startbuffer[sacc]
+  {\emph Saccharomyces cerevisiae}%
+\stopbuffer
+
+\startbuffer[bac]
+  {\emph Bacillus}%
+\stopbuffer
+
+\startbuffer[clos]
+  {\emph Clostridium}%
+\stopbuffer
+
+\startbuffer[sens]
+  {\emph soft sensor}%
+\stopbuffer
+
+\def\plural#1{#1s}
 
 \def\emdash{
     ---
