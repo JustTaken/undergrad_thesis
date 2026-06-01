@@ -1,16 +1,17 @@
 \startsection[title={Modelagem matemática}]
-  \writestatus{INFO}{Text width = \the\hsize}
   Monitorar e controlar processo industriais é em certa medida a principal atividade dos sensores físicos. Porem, devido a grande quantidade de informação que esses sensores conseguem carregar para fora do sistema, é possivel levar esses dados em consideração em interpretações mais abstratas do processo. A construção de um modelo preditivo de qualidae do processo é uma das possibilidades contempladas pela interpretação do contexto geral dado pelos sensores físicos, esses modelos são denominados \getbuffer[sens]. Este termo é derivado da combinação entre as palavras {\emph software} e {\emph sensor}, dado o sentido da existencia de um sensor pautado em uma lógica programada ao inves da sensibilidade de um material partindo diretamente de um princípio físico.
 
-  {\emph Soft sensors} podem ser distinguidos em duas classes, a primeira é centrada em dados, nomeada {\emph data-driven} e a segunda formada por uma descrição completa de um modelo físico-químico, denominada {\emph model-driven}. Estas duas classes são fundamentalmente distintas, podendo ser situadas nos extremos de um espectro de implementação fenomenologico do sistema. {\emph Data-driven} foca sua capacidade computacional em entender a correlação dos dados de entrada com o termo de qualidade na saida so sistema, enquanto aplicações {\emph model-driven} necessita de uma modelagem dos princípios físicos e químicos acontecendo no plano de fundo do processo, e sua correlação matemática com os parâmetros de qualidade de saida do sistema. Consequentemente, a aplicação de {\emph model-driven} \getbuffer[sens] é tecnicamente dificultada por definição, fazendo com que a maior parte das implementações sejam voltadas para modelos pautados em variáveis de processos de entrada. Portanto, neste trabalho, quando referenciado \getbuffer[sens] lê-se {\emph data-driven} \getbuffer[sens], exceto quando devidamente especificado.
+  {\emph Soft sensors} podem ser distinguidos em duas classes, a primeira é centrada em dados, nomeada {\emph data-driven} e a segunda formada por uma descrição completa de um modelo físico-químico, denominada {\emph model-driven}. Estas duas classes são fundamentalmente distintas, podendo ser situadas nos extremos de um espectro de implementação fenomenologico do sistema, vê-se isso na \in{Figura}[fig:algorithm_class_spectrum]. {\emph Data-driven} foca sua capacidade computacional em entender a correlação dos dados de entrada com o termo de qualidade na saida so sistema, enquanto aplicações {\emph model-driven} necessita de uma modelagem dos princípios físicos e químicos acontecendo no plano de fundo do processo, e sua correlação matemática com os parâmetros de qualidade de saida do sistema. Consequentemente, a aplicação de {\emph model-driven} \getbuffer[sens] é tecnicamente dificultada por definição, fazendo com que a maior parte das implementações sejam voltadas para modelos pautados em variáveis de processos de entrada. Portanto, neste trabalho, quando referenciado \getbuffer[sens] lê-se {\emph data-driven} \getbuffer[sens], exceto quando devidamente especificado.
 
-  {\emph \bf Espectro dos modelos de soft sensors entre model-driven e data-driven comparando com modelos white-box, gray-box e black-box}
+  \startplacefigure[title={Espectro da classificação dos algorítimos baseados em modelo ou em dados}, reference={fig:algorithm_class_spectrum}]
+    \externalfigure[image/algorithm_class_spectrum.png][height=200pt]
+  \stopplacefigure
 
-  Modelagem de \getbuffer[sens] tem por objetivo agregar variáveis de entrada, juntamente com o potêncial dessas variáveis de carregar informações sobre o processo, e devolver na saída características de qualidade do processo \cite[authoryear][ref::yang_0]. Ou tambem sinalizar desvios de idealidade, informando ao operador problemas ocorridos no processo, possibilitando uma detecção automatizada de problemas difíceis de serem encontrados \cite[authoryear][ref::kadlec_0]. Esta ultima prerrogativa é especialmente util quando trata-se de processos continuos, nos quais o reator encontra-se idealmente em regime permanente, porem dada a presença de microorganismos há imprevisibilidade quanto a resposta aos minímos estimulos que fogem da idealidade, ou mesmo uma resposta átipica a condições ideais de operação devido ao estress acumulado pela cultura. Com um modelo treinado em especificidades como essa, é possivel que haja uma predição da problematica antes memos que o curso divergente seja capaz de causar maiores danos na produtividade ou na composição de saida.
+  Modelagem de \getbuffer[sens] tem por objetivo agregar variáveis de entrada, juntamente com o potêncial dessas variáveis de carregar informações sobre o processo, e devolver na saída características de qualidade do processo \cite[authoryear][ref::yang_0]. Ou tambem sinalizar desvios de idealidade, informando ao operador problemas ocorridos no processo, possibilitando uma detecção automatizada de problemas difíceis de serem encontrados \cite[authoryear][ref::kadlec_0]. Esta ultima prerrogativa é especialmente util quando trata-se de processos continuos, nos quais o reator encontra-se idealmente em regime permanente, porem dada a presença de microorganismos, há imprevisibilidade quanto a resposta aos minímos estimulos que fogem da idealidade, ou mesmo uma resposta átipica a condições ideais de operação devido ao estress acumulado pela cultura. Com um modelo treinado em especificidades como essa, é possivel que haja uma predição da problematica antes memos que o curso divergente seja capaz de causar maiores danos na produtividade ou na composição de saida.
 
-  Sobre os problemas encontrados em implementações de \getbuffer[sens] pode-se destacar dificuldades com tratamento de medições com ruido, ou fora do padrão e colinearidade entre variáveis \cite[authoyear][ref::kadlec_0]. Suas resoluções são geralmente tratadas com interferência manual sobre os parametros, modelo e coordenadas utilizadas no desenvolvimento da aplicação, a fim de remover pontos fora da curva esperada e como tambem excluir interdependência entre variáveis de entrada. Essas soluções se dão principalmente devido ao entendimento do processo, e dificilmente poderiam ser de outra forma (CITAÇAO).
+  Sobre os problemas encontrados em implementações de \getbuffer[sens] pode-se destacar dificuldades com tratamento de medições com ruido, fora do padrão ou com colinearidade entre variáveis \cite[authoyear][ref::kadlec_0]. Suas resoluções são geralmente tratadas com interferência manual sobre os parametros, modelo e coordenadas utilizadas no desenvolvimento da aplicação seguindo a experiencia do engenheiro, a fim de remover pontos fora da curva esperada e como tambem excluir interdependência entre variáveis de entrada. Essas soluções se dão principalmente devido ao entendimento do processo, e dificilmente poderiam ser de outra forma (CITAÇAO).
 
-  O formato dos dados esperados para a contrução dos modelos de \getbuffer[sens] são separados em conjunto de entrada \math{X} e conjunto alvo \math{Y}, formando o conjunto de dados \math{S}.
+  O formato dos dados esperados para a contrução dos modelos de \getbuffer[sens] são separados em conjunto de entrada \math{X} e conjunto alvo \math{Y}, formando o conjunto de dados \math{S} na \in{Equação}[eq:data_set].
 
   \startplaceformula[reference={eq:data_set}]
     \startformula
@@ -18,7 +19,7 @@
     \stopformula
   \stopplaceformula
 
-  Na \in{Equação}[eq:data_set] observa-se os conjuntos mencionados, dos quais as iterações programaticas do algoritimo particular tem por objetivo aproximar uma função alvo \math{f} que transforma \math{X} em \math{Y}, da forma que aparece na \in{Equação}[eq:data_set_train]. A dimensão vetorial dos elementos de \math{X} e \math{Y}, vão depender da quantidade de variáveis medidas em cada uma das amostragems. Ou seja, \math{\vec{x}} pode ser um elemento de \math{X} com dimensão \math{m} e \math{\vec{y}} um elemento de \math{Y} com dimensão \math{\gamma}. Os elementos do conjunto de entrada \math{X} e do conjunto de saida \math{Y} não possuem qualquer correlação dimensional, porem esses conjuntos compartilham a necessidade de possuir a mesma quantidade de elementos para que o espaço amostral seja valido, visando a formação de pares \math{(\vec{x}, \vec{y}) \in S} para definição da função \math{f}.
+  Observa-se os conjuntos mencionados \in{Equação}[eq:data_set], dos quais as iterações programaticas do algoritimo particular tem por objetivo aproximar uma função alvo \math{f} que transforma \math{X} em \math{Y}, da forma que aparece na \in{Equação}[eq:data_set_train]. A dimensão vetorial dos elementos de \math{X} e \math{Y}, vão depender da quantidade de variáveis medidas em cada uma das amostragems. Ou seja, \math{\vec{x}} pode ser um elemento de \math{X} com dimensão \math{m} e \math{\vec{y}} um elemento de \math{Y} com dimensão \math{\gamma}. Os elementos do conjunto de entrada \math{X} e do conjunto de saida \math{Y} não possuem qualquer correlação dimensional, porem esses conjuntos compartilham a necessidade serem construidos inicialmente com a mesma quantidade de elementos para que o espaço amostral seja valido, visando a formação de pares \math{(\vec{x}, \vec{y}) \in S} para definição da função \math{f}.
 
   \startplaceformula[reference={eq:data_set_train}]
     \startformula
@@ -30,26 +31,44 @@
 
   \startitemize
     \starthead{Multiple linear regression} 
-      Este modelo é considerado estatístico classico. Baseia-se em um método de ajuste de coeficientes para um função linear pré-definida da forma da \in{Equação}[eq:regresssion], pautada nos principios de minimização de erros quadrados.
+      Este modelo é considerado estatístico clássico. Baseia-se em um método de ajuste de coeficientes para um função linear pré definida da forma da \in{Equação}[eq:regression], pautada nos principios de minimização de erros quadrados.
 
-      \startplaceformula[reference={eq:regresssion}]
+      \startplaceformula[reference={eq:regression}]
         \startformula
-          y = \beta_{0} + \sum_{j=1}^{n} \beta_{j} x_{i j}
+          y = \beta_{0} + \sum_{i=1}^{n} \beta_{i} x_{i}
         \stopformula
       \stopplaceformula
 
+      O vector \math{\vec{\beta} = \left\lparen \beta_{0}, \dots, \beta_{n} \right\rparen} na \in{Equação}[eq:regression] é definido de tal forma que a predição de uma coordenada \math{y} de \math{\vec{y}} para \math{\vec{x} = \left\lparen x_1, \dots, x_n \right\rparen} pode ser feita com um erro médio \math{\bar{\epsilon} = 0}. Em que \math{n} é a quantidade de coordenadas de cada amostra em \math{\vec{x}}.
+
+      Existem outras variantes desse algorítomo para polinomios de graus maiores, assim como para dependência conjunta de mais de um termo, ou seja, à \in{Equação}[eq:regression] adiciona-se termos da forma \math{x_i x_j} no caso de grau \math{2}, mas como essa forma sujere, o modelo não se restringe a dependência linear.
     \stophead
 
-    \starthead{multilayer perceptron}
+    \starthead{Partial least square}
     \stophead
 
-    \starthead{partial least square}
+    \starthead{Multi-layer perceptron}
+      O proposito deste método é construir camadas de neurônios, no mínimo \math{3} camadas, a primeira sendo a camada de entrada com a mesma quantidade de neurônios que coordenadas \math{n} no vetor de entrada \math{\vec{x}}. A segunda camada é de dimensão arbitraria \math{m}, possuindo para cada um dessens neurônios intermediarios, \math{n} pesos \math{w_{ji}}, correspondentes as conexões entre a todos os neurônios da camada anterior, com cada neurônio dessa segunda camada. Portanto a camada tem \math{m n} pesos \math{w_{ji}}, com valores de seus neurônios são obtidos pela \in{Equação}[eq:multilayer_perceptron] sob a aplicação de ativação arbitraria \math{\sigma}, presente para um ajuste fino da imagem da camada. A terceira camada é a saida, e compartilha a mesma dimensão \math{\gamma} que o vetor \math{\vec{y}}. Então, o modelo {\emph multi-layer perceptron} pode ser considerado como um mapa \math{f} de \math{X} para \math{Y}, com a vantagem de se ajustar a praticamente qualquer funcionalidade interna do sistema, porque o modelo pode expandir-se em quantidade de camadas intermediaria e crescer em complexidade e acuracia \cite[authoryear][ref::funahashi].
+
+      \startplaceformula[reference={eq:multilayer_perceptron}]
+        \startformula
+          x_j = \sigma \left\lparen \sum_{i = 1}^{n} w_{ji} x_{i} \right\rparen
+        \stopformula
+      \stopplaceformula
+
+      Na \in{Equação}[eq:multilayer_perceptron] ve-se os indices \math{j = 1, 2, \dots, m} que indicam a definição de um membro \math{x_{j}} da camada intermediária, com valor dado pela soma dos membros \math{x_i} \math{i = 1, 2, \dots, n} da camada anterior sob a atuação de pesos \math{w_{ji}} escolhidos pelo algorítimo. A função \math{\sigma} é denominada função de ativação da camada, tem o papel de mudar a escala dos valores, a fim de ajusta-los a uma escala adequada para o sistema. Comumente utiliza-se a função sigmoide \cite[authoryear][ref::kadlec_0] para esta tarefa. A equação é a forma canonica de qualquer camada do modelo, com os devidos ajustes dimensionais dos vetores das camadas atuantes na equação, exceto para a primeira camada, para a qual seus valores são a entrada do sistema.
+
+      \startplacefigure[title={}, reference={fig:multilayer_perceptron}]
+        \externalfigure[image/multilayer_perceptron.png][height=400pt]
+      \stopplacefigure
+
+      A \in{Figura}[fig:multilayer_perceptron] exemplifica um sistema característico de \math{3} camadas. A camada de entrada de dimensão \math{n} recebe \math{\vec{x}} do sistema, e conecta-se com a camada intermediaria de dimensão \math{m} por \math{n m} pesos \math{w_{ji}^{h}}. Os neurônios da camada intermediaria e suas \math{m \gamma} conexões de pesos \math{w_{ji}^o} conectam-se a camada de saida de dimensão \math{\gamma} gerando o resultado \math{\vec{y}} do modelo. Note a diferenciação entre os pesos da camada intermediária \math{w_{ji}^h} e da camada de saida \math{w_{ji}^o}, e tambem que os indices \math{i} e \math{j} se adaptam a quantidade de neurônios da camada anterior e da camada posterior.
     \stophead
 
-    \starthead{recurrent neural networks}
+    \starthead{Recurrent neural networks}
     \stophead
 
-    \starthead{long-term and short-term memory}
+    \starthead{Long-term and short-term memory}
     \stophead
   \stopitemize
 \stopsection
