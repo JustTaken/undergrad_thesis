@@ -1,0 +1,86 @@
+\setuppapersize[A4]
+
+\startluacode
+  dofile("source/csvtable.lua")
+\stopluacode
+
+\edef\GraphWidth{\the\textwidth}
+
+\startreusableMPgraphic{csvplot}
+  numeric GraphWidth, w;
+  path pf, p;
+  pair bc, lc;
+
+  pf := \csvloadplot{data/testing.csv};
+
+  w := xpart(urcorner bbox pf) - xpart(llcorner bbox pf);
+  GraphWidth := \GraphWidth;
+
+  p := pf xscaled (GraphWidth/w) yscaled 3pt;
+  bc := 1/2[llcorner bbox p, lrcorner bbox p];
+  lc := 1/2[llcorner bbox p, ulcorner bbox p];
+
+  draw(p);
+  label.bot(textext("\math{x}"), (xpart(bc),0));
+  label.lft(textext("\math{y}"), (0,ypart(lc)));
+
+  drawarrow((0, ypart(llcorner bbox p)) -- (0, ypart(urcorner bbox p)));
+  drawarrow((xpart(llcorner bbox p), 0) -- (xpart(urcorner bbox p), 0));
+
+  currentpicture := currentpicture xsized GraphWidth
+\stopreusableMPgraphic
+
+\startuseMPgraphic{alcoholic_pathway}
+  numeric sp, hsp, disp;
+  path pl, pu;
+
+  u := 120pt;
+ 
+  sp = u / 2;
+  hsp = sp / 2;
+  disp := u / 10;
+
+  pickup pencircle scaled 2bp;
+
+  z0 = (0u, 0u);
+  z1 = (1u, 0u);
+  z2 = (2u, 0u);
+  z3 = (3u, 0u);
+
+  label.lft(textext("\tfx\chemical{Glicose}"), (0, 0)) rotated 90 shifted (xpart(z0), ypart(z0) + 20pt);
+  drawarrow(z0 + (disp, 0) -- z1 - (disp, 0));
+
+  label.lft(textext("\tfx\chemical{Piruvato}"), (0, 0)) rotated 90 shifted (xpart(z1), ypart(z1) + 23pt);;
+  drawarrow(z1 + (disp, 0) -- z2 - (disp, 0));
+
+  label.lft(textext("\tfx\chemical{Acetaldeido}"), (0, 0)) rotated 90 shifted (xpart(z2), ypart(z2) + 30pt);;;
+  drawarrow(z2 + (disp, 0) -- z3 - (disp, 0));
+
+  label.lft(textext("\tfx\chemical{Etanol}"), (0, 0)) rotated 90 shifted (xpart(z3), ypart(z3) + 15pt);;;;
+
+  z6 = z0 + (sp, -hsp);
+  z7 = z0 + (sp, hsp);
+
+  pl := z6 - (hsp, 0){up}..{down}z6 + (hsp, 0);
+  pu := z7 - (hsp, 0){down}..{up}z7 + (hsp, 0);
+
+  drawarrow pl;
+  label.bot(textext("\tfx\chemical{2NAD^{+}}"), z6 - (hsp, -3pt));
+  label.bot(textext("\tfx\chemical{2NADH}"), z6 + (hsp, 0));
+
+  drawarrow pu;
+  label.top(textext("\tfx\chemical{2ADP}"), z7 - (hsp, 0));
+  label.top(textext("\tfx\chemical{2ATP}"), z7 + (hsp, 0));
+
+  drawarrow pl shifted (u, 0);
+  drawarrow pu shifted (u, 0);
+
+  drawarrow pl shifted (2u, 0);
+  drawarrow pu shifted (2u, 0);
+
+\stopuseMPgraphic
+
+\starttext
+  %\framed[width=\textwidth, frame=off]{\reuseMPgraphic{csvplot}}
+  \useMPgraphic{alcoholic_pathway}
+\stoptext

@@ -26,7 +26,7 @@
 \loadbtxdefinitionfile[apa]
 
 \startluacode
-  csvtable = require("source/csvtable.lua")
+  dofile("source/csvtable.lua")
 \stopluacode
 
 \startbuffer[data]
@@ -60,17 +60,17 @@
 }
 
 \starttext
-    \startfrontmatter
-        \input{source/cover.tex}
-    \stopfrontmatter
+  \startfrontmatter
+    \input{source/cover.tex}
+  \stopfrontmatter
 
-    \startbodymatter
-        \input{source/review/main.tex}
-    \stopbodymatter
+  \startbodymatter
+    \input{source/review/main.tex}
+  \stopbodymatter
 
-    \startbackmatter
-        \startchapter[title={Referências}]
-            \placebtxrendering[ref][method=global]
-        \stopchapter
-    \stopbackmatter
+  \startbackmatter
+    \startchapter[title={Referências}]
+      \placebtxrendering[ref][method=global]
+    \stopchapter
+  \stopbackmatter
 \stoptext

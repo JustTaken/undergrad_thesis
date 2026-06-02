@@ -1,25 +1,26 @@
-local csvtable = {}
-
-local function split(line)
-  local t = {}
-  for field in line:gmatch("([^,]+)") do
-    t[#t+1] = field
-  end
-
-  return t
-end
-
-function  csvtable.render(filename)
+local function parse(filename)
   local rows = {}
 
   for line in io.lines(filename) do
-    rows[#rows+1] = split(line)
+    local t = {}
+
+    for field in line:gmatch("([^,]+)") do
+      t[#t+1] = field
+    end
+
+    rows[#rows+1] = t
   end
+
+  return rows
+end
+
+local function  csvloadtable(filename)
+  local rows = parse(filename)
 
   local ncols = #rows[1]
   context(string.format("\\bTABLE[width=%.5f\\textwidth]", 1/ncols))
 
-    for r, row in ipairs(rows) do
+    for _, row in ipairs(rows) do
       context("\\bTR")
 
         for _, cell in ipairs(row) do
@@ -34,4 +35,28 @@ function  csvtable.render(filename)
   context("\\eTABLE")
 end
 
-return csvtable
+local function csvloadplot(filename)
+  local points = {}
+
+  local rows = parse(filename)
+
+  for i = 2, #rows do
+    points[i - 1] = string.format("(%s, %s)", rows[i][1], rows[i][2])
+  end
+
+  context(table.concat(points, "--"))
+end
+
+interfaces.implement {
+  name = "csvloadtable",
+  arguments = "string",
+  public = true,
+  actions = csvloadtable
+}
+
+interfaces.implement {
+  name = "csvloadplot",
+  arguments = "string",
+  public = true,
+  actions = csvloadplot
+}
