@@ -4,12 +4,11 @@
 \mainlanguage[pt-br]
 
 \setvariables[metadata][
-    author={João Pedro Câmara Borges},
-    title={Desenvolvimento de soft sensors baseados em redes neurais para monitoramento de processos fermentativos},
-    date={2026},
+	author={João Pedro Câmara Borges},
+	title={Desenvolvimento de soft sensors baseados em redes neurais para monitoramento de processos fermentativos},
+	date={2026},
 ]
 
-% \setupitemize[headcolor=red]
 \setupitemize[1][symbol=blacksquare]
 \setupitemize[2][symbol=circle, width=1.5ex]
 \setupitemize[2][nowhite]
@@ -26,51 +25,51 @@
 \loadbtxdefinitionfile[apa]
 
 \startluacode
-  dofile("source/csvtable.lua")
+	dofile("source/csvtable.lua")
 \stopluacode
 
 \startbuffer[data]
-  {\emph data-driven}%
+	{\emph data-driven}%
 \stopbuffer
 
 \startbuffer[model]
-  {\emph model-driven}%
+	{\emph model-driven}%
 \stopbuffer
 
 \startbuffer[sacc]
-  {\emph Saccharomyces cerevisiae}%
+	{\emph Saccharomyces cerevisiae}%
 \stopbuffer
 
 \startbuffer[bac]
-  {\emph Bacillus}%
+	{\emph Bacillus}%
 \stopbuffer
 
 \startbuffer[clos]
-  {\emph Clostridium}%
+	{\emph Clostridium}%
 \stopbuffer
 
 \startbuffer[sens]
-  {\emph soft sensor}%
+	{\emph soft sensor}%
 \stopbuffer
 
 \define[1]\plural{#1s}
 
 \def\emdash{
-    ---
+	---
 }
 
 \starttext
-  \startfrontmatter
-    \input{source/cover.tex}
-  \stopfrontmatter
+	\startfrontmatter
+		\input{source/cover.tex}
+	\stopfrontmatter
 
-  \startbodymatter
-    \input{source/review/main.tex}
-  \stopbodymatter
+	\startbodymatter
+		\input{source/review/main.tex}
+	\stopbodymatter
 
-  \startbackmatter
-    \startchapter[title={Referências}]
-      \placebtxrendering[ref][method=global]
-    \stopchapter
-  \stopbackmatter
+	\startbackmatter
+		\startchapter[title={Referências}]
+			\placebtxrendering[ref][method=global]
+		\stopchapter
+	\stopbackmatter
 \stoptext
