@@ -9,7 +9,7 @@
 
 	Modelagem de \plural{\getbuffer[sens]} tem por objetivo agregar variáveis de entrada, juntamente com o potêncial dessas variáveis de carregar informações sobre o processo, e devolver na saída características de qualidade do processo \cite[authoryear][ref::yang_0]. Ou tambem sinalizar desvios de idealidade, informando ao operador problemas ocorridos no processo, possibilitando uma detecção automatizada de problemas difíceis de serem encontrados \cite[authoryear][ref::kadlec_0]. Esta ultima prerrogativa é especialmente util quando trata-se de processos continuos, nos quais o reator encontra-se idealmente em regime permanente, porem dada a presença de microorganismos, há imprevisibilidade quanto a resposta aos minímos estimulos que fogem da idealidade, ou mesmo uma resposta átipica a condições ideais de operação devido ao estress acumulado pela cultura. Com um modelo treinado em especificidades como essa, é possivel que haja uma predição da problematica antes memos que o curso divergente seja capaz de causar maiores danos na produtividade ou na composição de saida.
 
-	Sobre os problemas encontrados em implementações de \getbuffer[sens] pode-se destacar dificuldades com tratamento de medições com ruido, fora do padrão ou com colinearidade entre variáveis \cite[authoyear][ref::kadlec_0]. Suas resoluções são geralmente tratadas com interferência manual sobre os parametros, modelo e coordenadas utilizadas no desenvolvimento da aplicação seguindo a experiencia do engenheiro, a fim de remover pontos fora da curva esperada e como tambem excluir interdependência entre variáveis de entrada. Essas soluções se dão principalmente devido ao entendimento do processo, e dificilmente poderiam ser de outra forma (CITAÇAO).
+	Sobre os problemas encontrados em implementações de \getbuffer[sens] pode-se destacar dificuldades com tratamento de medições com ruido, fora do padrão ou com colinearidade entre variáveis \cite[authoyear][ref::kadlec_0]. Suas resoluções são geralmente tratadas com interferência manual sobre os parametros, modelo e coordenadas utilizadas no desenvolvimento da aplicação seguindo a experiencia do engenheiro, a fim de remover pontos fora da curva esperada e como tambem excluir interdependência entre variáveis de entrada. Essas soluções se dão principalmente devido ao entendimento do processo, e dificilmente poderiam ser de outra forma \cite[authoryear][ref::kadlec_0].
 
 	O formato dos dados esperados para a contrução dos modelos de \getbuffer[sens] são separados em conjunto de entrada \math{X} e conjunto alvo \math{Y}, formando o conjunto de dados \math{S} na \in{Equação}[eq:data_set].
 
@@ -70,11 +70,11 @@
 		\stophead
 
 		\starthead{Multi-layer perceptron}
-			O proposito deste método é construir no mínimo \math{3} camadas de neurônios, a primeira sendo a camada de entrada com a mesma quantidade \math{n} de neurônios que coordenadas no vetor de entrada \math{\vec{x} = \left\lparen x_{1}, dots, x_{n} \right\rparen}. A segunda camada é de dimensão arbitraria \math{m}, possuindo para cada um dessens neurônios intermediarios, \math{n} pesos \math{w_{ji}}, correspondentes as conexões entre a todos os neurônios da camada anterior, com cada neurônio dessa segunda camada. Portanto a camada tem \math{m n} pesos \math{w_{ji}}, com valores de seus neurônios são obtidos pela \in{Equação}[eq:multilayer_perceptron] sob a aplicação de ativação arbitraria \math{\sigma}, presente para um ajuste fino da imagem da camada. A terceira camada é a saida, e compartilha a mesma dimensão \math{\gamma} que o vetor \math{\vec{y}}. Então, o modelo {\emph multi-layer perceptron} pode ser considerado como um mapa \math{f} de \math{X} para \math{Y}, com a vantagem de se ajustar a praticamente qualquer funcionalidade interna do sistema, porque o modelo pode expandir-se em quantidade de camadas intermediaria e crescer em complexidade e acuracia \cite[authoryear][ref::funahashi].
+			O proposito do método {\emph multi-layer perceptron} (MLP) é construir no mínimo \math{3} camadas de neurônios, a primeira sendo a camada de entrada com a mesma quantidade \math{n} de neurônios que coordenadas no vetor de entrada \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen}. A segunda camada é de dimensão arbitraria \math{m}, possuindo para cada um dessens neurônios intermediarios, \math{n} pesos \math{w_{ji}}, correspondentes as conexões entre a todos os neurônios da camada anterior, com cada neurônio dessa segunda camada. Portanto a camada tem \math{m n} pesos \math{w_{ji}}, com valores de seus neurônios são obtidos pela \in{Equação}[eq:multilayer_perceptron] sob a aplicação de ativação arbitraria \math{\sigma}, presente para um ajuste fino da imagem da camada. A terceira camada é a saida, e compartilha a mesma dimensão \math{\gamma} que o vetor \math{\vec{y}}. Então, o modelo MLP pode ser considerado como um mapa \math{f} de \math{X} para \math{Y}, com a vantagem de se ajustar a praticamente qualquer funcionalidade interna do sistema, porque o modelo pode expandir-se em quantidade de camadas intermediaria e crescer em complexidade e acuracia \cite[authoryear][ref::funahashi].
 
 			\startplaceformula[reference={eq:multilayer_perceptron}]
 				\startformula
-					x_j = \sigma \left\lparen \sum_{i = 1}^{n} w_{ji} x_{i} \right\rparen
+					h_j = \sigma \left\lparen \sum_{i = 1}^{n} w_{ji} x_{i} \right\rparen
 				\stopformula
 			\stopplaceformula
 
@@ -84,20 +84,67 @@
 				\externalfigure[image/multilayer_perceptron.png][height=400pt]
 			\stopplacefigure
 
-			A \in{Figura}[fig:multilayer_perceptron] exemplifica um sistema característico de \math{3} camadas. A camada de entrada de dimensão \math{n} recebe \math{\vec{x}} do sistema, e conecta-se com a camada intermediaria de dimensão \math{m} por \math{n m} pesos \math{w_{ji}^{h}}. Os neurônios da camada intermediaria e suas \math{m \gamma} conexões de pesos \math{w_{ji}^o} conectam-se a camada de saida de dimensão \math{\gamma} gerando o resultado \math{\vec{y}} do modelo. Note a diferenciação entre os pesos da camada intermediária \math{w_{ji}^h} e da camada de saida \math{w_{ji}^o}, e tambem que os indices \math{i} e \math{j} se adaptam a quantidade de neurônios da camada anterior e da camada posterior.
+			A \in{Figura}[fig:multilayer_perceptron] exemplifica um sistema característico de \math{3} camadas. A camada de entrada de dimensão \math{n} recebe \math{\vec{x}} do sistema, e conecta-se com a camada intermediaria de dimensão \math{m} pela matriz \math{W_{h} \in \reals^{n \times m}}. Os neurônios da camada intermediaria conectam-se a camada de saida de dimensão \math{\gamma} pela matriz \math{W_{o} \in \reals^{m \times \gamma}} gerando o resultado \math{\vec{y}} do modelo.
 		\stophead
 
 		\starthead{Recurrent neural networks}
-			Redes neurais recorrentes tem muita similaridade com {\emph machine-layer perceptron} pela sua natureza de camadas internas, assim como sua conterranea. A diferença surge na característica que a nomea, o sistema é recorrente, ou melhor, pode ser reutilizado quantas vezes for necessário, simbolizado na \in{Figura}[fig:rnn_algorithm]. Isso significa que o algorítimo aceita realimentação de dados e os interpreta lado a lado com os dados presentes anteriormente, conferindo uma qualidade temporal ao modelo que o implemente. Consequentemente, quando se trata de série temporal {\emph recurrente neural networks} salta como uma alternativa.
+			Redes neurais recorrentes (RNN) tem muita similaridade com MLP pela sua natureza de camadas internas, assim como sua conterranea. A diferença surge na característica que a nomea, o sistema é recorrente, ou melhor, pode ser reutilizado quantas vezes for necessário, simbolizado na \in{Figura}[fig:rnn_algorithm]. Isso significa que o algorítimo aceita realimentação de dados e os interpreta lado a lado com os dados presentes anteriormente, conferindo uma qualidade temporal ao modelo que o implemente. Consequentemente, quando se trata de série temporal RNN salta como uma alternativa viável.
 
-			A entrada de dados \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen} acontece na primeira camada, na segunda camada, esse dados de entrada possuem suas importancias quantificadas com pesos \math{w} para cada um dos neurônios da camada. A especialidade desse modelo é a recorrencia de dados anteriores na camada intermediária para ponderação, no caso da primeira entrada temporal a saída é indistinguível de um {\emph machine-layer preceptron} comum. A saida \math{\vec{y} = \left\lparen y_{1}, \dots, y_{\lambda} \right\rparen} acontece na ultima camada normalmente. Para a entrada temporal seguinte, o algorítimo se recorda ultima saida, e reutiliza-a na camada intermediária. Esse processo pode ser feito indefinidamente, mas o algorítimo não garante uma memória de longo prazo, dado que resultados passados são gradualmente esquecidos.
+			A entrada de dados \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen} acontece na primeira camada, na segunda camada, esse dados de entrada possuem suas importancias quantificadas com pesos \math{w} para cada um dos neurônios da camada. A especialidade desse modelo é a recorrencia de dados anteriores na camada intermediária para ponderação, no caso da primeira entrada temporal a saída é indistinguível de um {\emph machine-layer preceptron} comum. A saida \math{\vec{y} = \left\lparen y_{1}, \dots, y_{\lambda} \right\rparen} acontece na ultima camada normalmente. Para a entrada temporal seguinte, o algorítimo se recorda ultima saida, e reutiliza-a na camada intermediária. Esse processo pode ser feito indefinidamente, mas o algorítimo não garante uma memória de longo prazo, dado que resultados passados são gradualmente esquecidos. Outro problema commum é o fato do gradiente desaparecer ou escalar com o tempo, a depender dos valores assumidos pelos neurônios da camada intermediária com o tempo.
 
 			\startplacefigure[title={Demonstração de redes neurais recorrentes}, reference={fig:rnn_algorithm}]
 				\externalfigure[image/rnn_algorithm.png][height=400pt]
 			\stopplacefigure
 		\stophead
 
+		A representação da \in{Equação}[eq:rnn_hidden] demonstra a formulação do estado da camada intermediária do sistema, em uma operação matricial, ou seja, na camada intermediátia o estado oculto é uma matriz \math{H_{t} \in \reals^{n \times h}}, em que \math{n} é a quantidade de amostras utilizadas e \math{h} a quantidade de neurônios na camada. Assim como o modelo MLP, RNN não se restringe a somente uma camada intermediária.
+
+		\startplaceformula[reference={eq:rnn_hidden}]
+			\startformula
+				H_{t} = \sigma_{h} \left\lparen X_{t} W_{x} + H_{t - 1} W_{h} + B_{h} \right\rparen
+			\stopformula
+		\stopplaceformula
+
+		Na \in{Equação}[eq:rnn_hidden], \math{H_{t - 1}} indica a presença da pondenração dos estados ocultos das amostras anteriores na camada intermediária para o momento \math{t} sob a matriz \math{W_{h} \in \reals^{h \times h}}, e \math{B_{h} \in \reals^{1 \times h}} representa os coeficientes lineares aplicados à combinação linear das camadas de entrada e intermediária. Similarmente aos papeis desempenhados na camada de saida, como mostrado na \in{Equação}[eq:rnn_output].
+
+		\startplaceformula[reference={eq:rnn_output}]
+			\startformula
+				O_{t} = \sigma_{o} \left\lparen H_{t} W_{o} + B_{o} \right\rparen
+			\stopformula
+		\stopplaceformula
+
+		Nota-se que a saida \math{O_{t}} na \in{Equação}[eq:rnn_output] não há presença direta de \math{t - 1}. Ambas as variáveis \math{H} e \math{O} possuem a função de ativação \math{\sigma} como no modelo MLP.
+
 		\starthead{Long-term and short-term memory}
+			{\emph Long-short-term memory} (LSTM) é uma evolução do algorítimo RNN, desenvolvido para endereçar o problema do gradiente e do esquecimento. Para isso, a complexidade do algorítimo cesce enormemente, necessitando de diversos acrescimos de matrizes pesos para implementação de portões lógicos. O diagrama da \in{Figura}[fig:lstm_algorithm] exemplifica essa extensão da camada interna do RNN.
+
+			\startplacefigure[title={Camada intermediária no algorítimo LSTM}, reference={fig:lstm_algorithm}]
+				\externalfigure[image/lstm_algorithm.png][height=400pt]
+			\stopplacefigure
+
+			Os portões são integrados nos neurônios sob a denominação de células \cite[authoryear][ref::schmidt_0] de forma que existam células de entrada, saída, esquecimento e memória, \math{I, O, F, C} respectivamente, apresentados nas \in{Equações}[eq:lstm_gates] e \in[eq:lstm_hidden].
+
+			\startplaceformula[reference={eq:lstm_gates}]
+				\startformula
+					O_{t} = \sigma_{o} \left\lparen X_{t} W_{xo} + H_{t - 1} W_{ho} + B_{o} \right\rparen \breakhere
+					I_{t} = \sigma_{i} \left\lparen X_{t} W_{xi} + H_{t - 1} W_{hi} + B_{i} \right\rparen \breakhere
+					F_{t} = \sigma_{f} \left\lparen X_{t} W_{xf} + H_{t - 1} W_{hf} + B_{f} \right\rparen
+				\stopformula
+			\stopplaceformula
+
+			Os pesos \math{W_{xo}, W_{xi}, W_{xf} \in \reals^{d \times h}}, tais que \math{h} é a quantidade de neurônios na camada oculta, performa modificações em cima da entrada \math{X_{t} \in \reals^{n \times d}} e do estado oculto das amostras anteriores \math{H_{t - 1} \in \reals^{n \times h}} com auxilio dos pesos \math{W_{ho}, W_{hi}, W_{hf} \in \reals^{h \times h}} e coeficientes lineares \math{B_{o}, B_{i}, B_{f} \in \reals^{1 \times h}}. A nomenclatura saida para \math{O_{t}}, não simboliza a dependência de \math{H_{t}}, na realidade, o contrário é verdadeiro. A \in{Equação}[eq:lstm_hidden] mostra que o estado oculto \math{H_{t}} é calculado a partir do resultado do portão de saída \math{O_{t}}.
+
+			A proxima etapa é a contrução de uma célula chamda candidata de memória \math{\tilde{C_{t}} \in \reals^{n \times h}}, calculada similarmente aos portões anteriores, com a introdução da função tangente hiperbólica para restrição do seu valor em \math{\left\lparen -1, 1 \right\rparen}. Os pesos \math{W_{xc} \in \reals^{d \times h}}, \math{W_{hc} \in \reals^{h \times h}} e coeficiente \math{B_{c}} tem papeis identicos na \in{Equação}[eq:lstm_hidden].
+
+			\startplaceformula[reference={eq:lstm_hidden}]
+				\startformula
+					\tilde{C_{t}} = \tanh \left\lparen X_{t} W_{xc} + H_{t - 1} W_{hc} + B_{c} \right\rparen \breakhere
+					C_{t} = F_{t} \odot C_{t - 1} + I_{t} \odot \tilde{C_{t}} \breakhere
+					H_{t} = O_{t} \odot \tanh \left\lparen C_{t} \right\rparen
+				\stopformula
+			\stopplaceformula
+
+			\math{C_{t}} e \math{H_{t}} utilizam o operador \math{\odot} para multiplicar membro a membro as matrizes de interesse na \in{Equação}[eq:lstm_hidden]. É possivel assumir que \math{H_{t} \in \left\lparen -1, 1 \right\rparen} porque \math{O_{t} \in \left\lparen 0, 1 \right\rparen} e \math{\tanh \left\lparen C_{t} \right\rparen \in \left\lparen -1, 1 \right\rparen}.
 		\stophead
 	\stopitemize
 \stopsection
