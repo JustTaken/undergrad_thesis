@@ -1,2 +1,15 @@
 \startsection[title={Modelo fermentativo}]
+	A modelagem do processo de fermentação é essencial para seu estudo, porque toda otimização é tão bem feita quanto o modelo físico-químico permite \cite[authoryear][ref::ureta_0]. Seguindo as diretrizes do modelo paramétrico formulado, é possivel estimar os valores desses parametros a partir do processamento de dados de um conjunto de experimentos cuidadosamentes planejados e executados. Validação desses resultados é uma ação rotineira no exercicio de desenvolvimento de modelos devidamente equacionados \cite[authoryear][ref::ureta_0].
+
+	O primeiro passo para o desenvolvimento de um modelo fermentativo é a analise qualitativa da estrutura do sistema fermentativo, e entendimento das rotas metabólicas. Em seguida, deve-se formular um modelo matemático que segue as definições a priori utilizadas na etapa anterior. Por ultimo é necessário a identificação dos valores numéricos que substituirão os parametros e constantes do modelo, baseados em dados experimentais reais de um processo.
+
+	Criar um modelo matemático envolve a etapa de determinação da estequiometria de reação e a etapa de formulação da taxa de reação. A etapa estequimetrica tem suas particularidades e pode englobar diversos mecanismos consideravelmente complexos, consequentemente, a taxa de reação \math{r}, que tem uma relação causal com a estequimetria, geralmente acompanha sua complexidade, acarretando em um uma cinética extensa. Mas existem modelos que tratam de generalizar comportamentos de determinadas reações, como mostra o \in{Sistema de Equações}[eq:rates], onde a mais simples tem a forma da reação elementar de ordem \math{1} no substrato \math{S}.
+
+	\startplaceformula[reference={eq:rates}]
+		\startformula
+			r_{1} = k S \breakhere
+			r_{2} = k S^{n} \breakhere
+			r_{3} = \frac{k S}{K + S}
+		\stopformula
+	\stopplaceformula
 \stopsection
