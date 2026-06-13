@@ -43,7 +43,7 @@
 
 			Existem outras variantes desse algorítomo para polinomios de graus maiores, assim como para dependência conjunta de mais de um termo, ou seja, à \in{Equação}[eq:regression] adiciona-se termos da forma \math{x_i x_j} no caso de grau \math{2}, mas como essa forma sujere, o modelo não se restringe a dependência linear.
 
-			Um fator comum dos métodos de regressão é a limitação sobre a postulação de modelos de estrutura simples, suposição de que todas as variaveis de interferência são observaveis e que todas as variáveis poder ser medidas sem erro \cite[authoryear][ref::haenlein_0] (COULD BE JACOBY 1978). Esses axiomas tem uma relação causal com as restrições sobre aplicações desses métodos.
+			Um fator comum dos métodos de regressão é a limitação sobre a postulação de modelos de estrutura simples, suposição de que todas as variaveis de interferência são observaveis e que todas as variáveis poder ser medidas sem erro \cite[authoryear][ref::haenlein_0]. Esses axiomas tem uma relação causal com as restrições sobre aplicações desses métodos.
 		\stophead
 
 		\starthead{Partial least square}
@@ -80,7 +80,7 @@
 
 			Na \in{Equação}[eq:multilayer_perceptron] ve-se os indices \math{j = 1, 2, \dots, m} que indicam a definição de um membro \math{x_{j}} da camada intermediária, com valor dado pela soma dos membros \math{x_i} \math{i = 1, 2, \dots, n} da camada anterior sob a atuação de pesos \math{w_{ji}} escolhidos pelo algorítimo. A função \math{\sigma} é denominada função de ativação da camada, tem o papel de mudar a escala dos valores, a fim de ajusta-los a uma escala adequada para o sistema. Comumente utiliza-se a função sigmoide \cite[authoryear][ref::kadlec_0] para esta tarefa. A equação é a forma canonica de qualquer camada do modelo, com os devidos ajustes dimensionais dos vetores das camadas atuantes na equação, exceto para a primeira camada, para a qual seus valores são a entrada do sistema.
 
-			\startplacefigure[title={}, reference={fig:multilayer_perceptron}]
+			\startplacefigure[title={Camadas de neurônios {\emph feed foward}}, reference={fig:multilayer_perceptron}]
 				\externalfigure[image/multilayer_perceptron.png][height=400pt]
 			\stopplacefigure
 
@@ -90,7 +90,7 @@
 		\starthead{Recurrent neural networks}
 			Redes neurais recorrentes (RNN) tem muita similaridade com MLP pela sua natureza de camadas internas, assim como sua conterranea. A diferença surge na característica que a nomea, o sistema é recorrente, ou melhor, pode ser reutilizado quantas vezes for necessário, simbolizado na \in{Figura}[fig:rnn_algorithm]. Isso significa que o algorítimo aceita realimentação de dados e os interpreta lado a lado com os dados presentes anteriormente, conferindo uma qualidade temporal ao modelo que o implemente. Consequentemente, quando se trata de série temporal RNN salta como uma alternativa viável.
 
-			A entrada de dados \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen} acontece na primeira camada, na segunda camada, esse dados de entrada possuem suas importancias quantificadas com pesos \math{w} para cada um dos neurônios da camada. A especialidade desse modelo é a recorrencia de dados anteriores na camada intermediária para ponderação, no caso da primeira entrada temporal a saída é indistinguível de um {\emph machine-layer preceptron} comum. A saida \math{\vec{y} = \left\lparen y_{1}, \dots, y_{\lambda} \right\rparen} acontece na ultima camada normalmente. Para a entrada temporal seguinte, o algorítimo se recorda ultima saida, e reutiliza-a na camada intermediária. Esse processo pode ser feito indefinidamente, mas o algorítimo não garante uma memória de longo prazo, dado que resultados passados são gradualmente esquecidos. Outro problema commum é o fato do gradiente desaparecer ou escalar com o tempo, a depender dos valores assumidos pelos neurônios da camada intermediária com o tempo.
+			A entrada de dados \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen} acontece na primeira camada, na segunda camada, esse dados de entrada possuem suas importancias quantificadas com pesos \math{w} para cada um dos neurônios da camada. A especialidade desse modelo é a recorrencia de dados anteriores na camada intermediária para ponderação, no caso da primeira entrada temporal a saída é indistinguível de um MLP comum. A saida \math{\vec{y} = \left\lparen y_{1}, \dots, y_{\lambda} \right\rparen} acontece na ultima camada normalmente. Para a entrada temporal seguinte, o algorítimo se recorda ultima saida, e reutiliza-a na camada intermediária. Esse processo pode ser feito indefinidamente, mas o algorítimo não garante uma memória de longo prazo, dado que resultados passados são gradualmente esquecidos. Outro problema commum é o fato do gradiente desaparecer ou escalar com o tempo, a depender dos valores assumidos pelos neurônios da camada intermediária com o tempo.
 
 			\startplacefigure[title={Demonstração de redes neurais recorrentes}, reference={fig:rnn_algorithm}]
 				\externalfigure[image/rnn_algorithm.png][height=400pt]
