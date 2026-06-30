@@ -11,11 +11,14 @@ Variables init_variables() {
 	real *k = malloc(sizeof(real) * k_count);
 	real *K = malloc(sizeof(real) * K_count);
 	real *S = malloc(sizeof(real) * S_count);
+	real *S_in = malloc(sizeof(real) * S_count);
 	real *X = malloc(sizeof(real) * X_count);
+	real *X_in = malloc(sizeof(real) * X_count);
 	real *pH = malloc(sizeof(real) * pH_count);
 	real *rate = malloc(sizeof(real) * rate_count);
 	real *I = malloc(sizeof(real) * I_count);
 	real *p = malloc(sizeof(real) * p_count);
+	real *D = malloc(sizeof(real) * D_count);
 
 	var[E] = 2.71828;
 	var[R] = 0.083145;
@@ -130,6 +133,31 @@ Variables init_variables() {
 	K[K_H_ch4] = 0.0014 * exp((-14240.0 / (100.0 * var[R])) * frac);
 	K[K_H_h2] = 7.8 * pow(10.0, -4) * exp(-4180.0 / (100.0 * var[R]) * frac);
 
+	S_in[S_su] = 0.01;
+	S_in[S_aa] = 0.001;
+	S_in[S_fa] = 0.001;
+	S_in[S_va] = 0.001;
+	S_in[S_bu] = 0.001;
+	S_in[S_pro] = 0.001;
+	S_in[S_ac] = 0.001;
+	S_in[S_h2] = 10e-8;
+	S_in[S_ch4] = 10e-5;
+	S_in[S_IC] = 0.04;
+	S_in[S_IN] = 0.01;
+	S_in[S_I] = 0.02;
+
+	X_in[X_c] = 2.0;
+	X_in[X_ch] = 5.0;
+	X_in[X_pr] = 20.0;
+	X_in[X_li] = 5.0;
+	X_in[X_su] = 0.0;
+	X_in[X_aa] = 0.01;
+	X_in[X_c4] = 0.01;
+	X_in[X_pro] = 0.01;
+	X_in[X_ac] = 0.01;
+	X_in[X_h2] = 0.01;
+	X_in[X_I] = 25.0;
+
 	S[S_su] = 0.012394;
 	S[S_aa] = 0.0055432;
 	S[S_fa] = 0.10741;
@@ -195,11 +223,14 @@ Variables init_variables() {
 		.k = k,
 		.K = K,
 		.S = S,
+		.S_in = S_in,
 		.X = X,
+		.X_in = X_in,
 		.pH = pH,
 		.rate = rate,
 		.I = I,
 		.p = p,
+		.D = D,
 	};
 
 	return variables;
@@ -333,10 +364,62 @@ void iterate_rate(Variables* v) {
 	v->rate[rate_T_10] = v->K[K_La] * (v->S[S_co2] - v->K[K_H_co2] * v->p[p_gas_co2]);
 }
 
-void iterate_differentials(Variables* v) {
+void iterate_differential(Variables* v) {
 	iterate_rate(v);
 
-	//v->D[D_S_su] = (v->var[Q_ad] / v->var[V_ad_liq]) * (
+	real tau = (v->var[Q_ad] / v->var[V_ad_liq]);
+
+	v->f[f_pro_c4] = 0.54;
+	v->f[f_ac_fa] = 0.7;
+	v->f[f_ac_pro] = 0.57;
+	v->f[f_ac_c4_8] = 0.31;
+	v->f[f_ac_c4_9] = 0.8;
+	v->f[f_h2_fa] = 0.30;
+	v->f[f_h2_c4_8] = 0.15;
+	v->f[f_h2_c4_9] = 0.20;
+	v->f[f_h2_pro] = 0.43;
+	// v->f[f_ac_fa] = 0.7;
+	v->f[f_pro_c4] = 0.54;
+
+	real sum = 0.0
+	+ (-v->C[C_xc] + v->f[f_SI_xc] * v->C[C_SI] * v->f[f_ch_xc] * v->C[C_ch] + v->f[f_pr_xc] * v->C[C_pr] + v->f[f_li_xc] * v->C[C_li] + v->f[f_XI_xc] * v->C[C_XI]) * v->rate[rate_1]
+	+ (-v->C[C_ch] + v->C[C_su]) * v->rate[rate_2]
+	+ (-v->C[C_pr] + v->C[C_aa]) * v->rate[rate_3]
+	+ (-v->C[C_li] + (1 - v->f[f_la_li]) * v->C[C_su] + v->f[f_fa_li] * v->C[C_fa]) * v->rate[rate_4]
+	+ (-v->C[C_su] + (1 - v->Y[Y_su]) * (v->f[f_bu_su] * v->C[C_bu] + v->f[f_pro_su] * v->C[C_pro] + v->f[f_ac_su] * v->C[C_ac]) + v->Y[Y_su] * v->C[C_bac]) * v->rate[rate_5]
+	+ (-v->C[C_aa] + (1 - v->Y[Y_aa]) * (v->f[f_va_aa] * v->C[C_aa] + v->f[f_bu_aa] * v->C[C_bu] + v->f[f_pro_aa] * v->C[C_pro] + v->f[f_ac_aa] * v->C[C_ac]) + v->Y[Y_aa] * v->C[C_bac]) * v->rate[rate_6]
+	+ (-v->C[C_fa] + (1 - v->Y[Y_aa]) * v->f[f_ac_fa] * v->C[C_ac] + v->Y[Y_fa] * v->C[C_bac]) * v->rate[rate_7]
+	+ (-v->C[C_va] + (1 - v->Y[Y_c4]) * v->f[f_pro_c4] * v->C[C_pro] + (1 - v->Y[Y_c4]) * v->f[f_ac_c4_8] * v->C[C_ac] + v->Y[Y_c4] * v->C[C_bac]) * v->rate[rate_8]
+	+ (-v->C[C_bu] + (1 - v->Y[Y_c4]) * v->f[f_ac_c4_9] * v->C[C_ac] + v->Y[Y_c4] * v->C[C_bac]) * v->rate[rate_9]
+	+ (-v->C[C_pro] + (1 - v->Y[Y_pro]) * v->f[f_ac_pro] * v->C[C_ac] + v->Y[Y_pro] * v->C[C_bac]) * v->rate[rate_10]
+	+ (-v->C[C_ac] + (1 - v->Y[Y_ac]) * v->C[C_ch4] + v->Y[Y_ac] * v->C[C_bac]) * v->rate[rate_11]
+	+ ((1 - v->Y[Y_h2]) * v->C[C_ch4] + v->Y[Y_h2] * v->C[C_bac]) * v->rate[rate_12]
+	+ (-v->C[C_bac] + v->C[C_xc]) * (v->rate[rate_13] + v->rate[rate_14] + v->rate[rate_15] + v->rate[rate_16] + v->rate[rate_17] + v->rate[rate_18] + v->rate[rate_19]);
+
+	v->D[D_S_su] = tau * (v->S_in[S_su] - v->S[S_su]) + v->rate[rate_2] + (1 - v->f[f_fa_li]) * v->rate[rate_4] - v->rate[rate_5];
+	v->D[D_S_aa] = tau * (v->S_in[S_aa] - v->S[S_aa]) + v->rate[rate_3] - v->rate[rate_6];
+	v->D[D_S_fa] = tau * (v->S_in[S_fa] - v->S[S_fa]) + v->f[f_fa_li] * v->rate[rate_4] - v->rate[rate_7];
+	v->D[D_S_va] = tau * (v->S_in[S_va] - v->S[S_va]) + (1 - v->Y[Y_aa]) * v->f[f_va_aa] * v->rate[rate_6] - v->rate[rate_8];
+	v->D[D_S_bu] = tau * (v->S_in[S_bu] - v->S[S_bu]) + (1 - v->Y[Y_su]) * v->f[f_bu_aa] * v->rate[rate_5] + (1 + v->Y[Y_aa]) * v->f[f_bu_aa] * v->rate[rate_6] - v->rate[rate_9];
+	v->D[D_S_pro] = tau * (v->S_in[S_pro] - v->S[S_pro]) + (1 - v->Y[Y_su]) * v->f[f_pro_su] * v->rate[rate_5] + (1 - v->Y[Y_aa]) * v->f[f_pro_aa] * v->rate[rate_6] + (1 - v->Y[Y_c4]) * v->f[f_pro_c4] * v->rate[rate_8] - v->rate[rate_10];
+	v->D[D_S_ac] = tau * (v->S_in[S_ac] - v->S[S_ac]) + (1 - v->Y[Y_su]) * v->f[f_ac_su] * v->rate[rate_5] + (1 - v->Y[Y_aa]) * v->f[f_ac_aa] * v->rate[rate_6] + (1 - v->Y[Y_fa]) * v->f[f_ac_fa] * v->rate[rate_7] + (1 - v->Y[Y_c4]) * v->f[f_ac_c4_8] * v->rate[rate_8] + (1 - v->Y[Y_c4]) * v->f[f_ac_c4_9] * v->rate[rate_9] + (1 - v->Y[Y_pro]) * v->f[f_ac_pro] * v->rate[rate_10] - v->rate[rate_11];
+	v->D[D_S_h2] = tau * (v->S_in[S_h2] - v->S[S_h2]) + (1 - v->Y[Y_su]) * v->f[f_h2_su] * v->rate[rate_5] + (1 - v->Y[Y_aa]) * v->f[f_h2_aa] * v->rate[rate_6] + (1 - v->Y[Y_fa]) * v->f[f_h2_fa] * v->rate[rate_7] + (1 - v->Y[Y_c4]) * v->f[f_h2_c4_8] * v->rate[rate_8] + (1 - v->Y[Y_c4]) * v->f[f_h2_c4_9] * v->rate[rate_9] + (1 - v->Y[Y_pro]) * v->f[f_h2_pro] * v->rate[rate_10] - v->rate[rate_12] - v->rate[rate_T_8];
+	v->D[D_S_ch4] = tau * (v->S_in[S_ch4] - v->S[S_ch4]) + (1 - v->Y[Y_ac]) * v->rate[rate_11] + (1 + v->Y[Y_h2]) * v->rate[rate_12] - v->rate[rate_T_9];
+
+	v->D[D_X_c] = tau * (v->X_in[X_c] - v->X[X_c]) - v->rate[rate_1] + v->rate[rate_13] + v->rate[rate_14] + v->rate[rate_15] + v->rate[rate_16] + v->rate[rate_17] + v->rate[rate_18] + v->rate[rate_19];
+	v->D[D_X_ch] = tau * (v->X_in[X_ch] - v->X[X_ch]) + v->f[f_ch_xc] * v->rate[rate_1] - v->rate[rate_2];
+	v->D[D_X_pr] = tau * (v->X_in[X_pr] - v->X[X_pr]) + v->f[f_pr_xc] * v->rate[rate_1] - v->rate[rate_3];
+	v->D[D_X_li] = tau * (v->X_in[X_li] - v->X[X_li]) + v->f[f_li_xc] * v->rate[rate_1] - v->rate[rate_4];
+	v->D[D_X_su] = tau * (v->X_in[X_su] - v->X[X_su]) + v->Y[Y_su] * v->rate[rate_5] - v->rate[rate_13];
+	v->D[D_X_aa] = tau * (v->X_in[X_aa] - v->X[X_aa]) + v->Y[Y_aa] * v->rate[rate_6] - v->rate[rate_14];
+	v->D[D_X_fa] = tau * (v->X_in[X_fa] - v->X[X_fa]) + v->Y[Y_fa] * v->rate[rate_7] - v->rate[rate_15];
+	v->D[D_X_c4] = tau * (v->X_in[X_c4] - v->X[X_c4]) + v->Y[Y_c4] * v->rate[rate_8] + v->Y[Y_c4] * v->rate[rate_9] - v->rate[rate_16];
+	v->D[D_X_pro] = tau * (v->X_in[X_pro] - v->X[X_pro]) + v->Y[Y_pro] * v->rate[rate_10] - v->rate[rate_17];
+	v->D[D_X_ac] = tau * (v->X_in[X_ac] - v->X[X_ac]) + v->Y[Y_ac] * v->rate[rate_11] - v->rate[rate_18];
+	v->D[D_X_h2] = tau * (v->X_in[X_h2] - v->X[X_h2]) + v->Y[Y_h2] * v->rate[rate_12] - v->rate[rate_19];
+	v->D[D_X_I] = tau * (v->X_in[X_I] - v->X[X_I]) + v->f[f_XI_xc] * v->rate[rate_1];
+	v->D[D_S_cat] = tau * (v->S_in[S_cat] - v->S[S_cat]);
+	v->D[D_S_an] = tau * (v->S_in[S_an] - v->S[S_an]);
 }
 
 // u[0] = S_su

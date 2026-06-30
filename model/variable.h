@@ -15,7 +15,9 @@ typedef struct {
 	real* k;
 	real* K;
 	real* S;
+	real* S_in;
 	real* X;
+	real* X_in;
 	real* pH;
 	real* rate;
 	real* I;

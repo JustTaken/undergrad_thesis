@@ -7,7 +7,7 @@ int main() {
 	Variables variables = init_variables();
 	printf("%f\n", variables.S[S_H_ion] * mult);
 
-	iterate_rate(&variables);
+	iterate_differential(&variables);
 
 	printf("%f\n", variables.S[S_H_ion] * mult);
 	return 0;
