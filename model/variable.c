@@ -31,19 +31,21 @@ Variables init_variables() {
 
 	p[p_gas_h2o] = 0.0313 * exp(5290.0 * frac);
 	p[p_gas_h2] = 0.0;
+	p[p_gas] = 0.0;
 	p[p_gas_ch4] = 0.0;
 	p[p_gas_co2] = 0.0;
 
 	var[V_ad_liq] = 3400;
 	var[V_ad_gas] = 300;
-	var[Q_ad] = 170;
-	var[Q_gas] = 0;
+	var[Q_ad] = 170.0;
+	var[Q_gas] = 0.0;
+	var[Q_ch4] = 0.0;
 
-	f[f_SI_xc] = 0.10;
-	f[f_XI_xc] = 0.20;
-	f[f_ch_xc] = 0.20;
-	f[f_pr_xc] = 0.20;
-	f[f_li_xc] = 0.30;
+	f[f_SI_c] = 0.10;
+	f[f_XI_c] = 0.20;
+	f[f_ch_c] = 0.20;
+	f[f_pr_c] = 0.20;
+	f[f_li_c] = 0.30;
 	f[f_fa_li] = 0.95;
 	f[f_h2_aa] = 0.06;
 	f[f_va_aa] = 0.23;
@@ -54,13 +56,23 @@ Variables init_variables() {
 	f[f_bu_su] = 0.13;
 	f[f_pro_su] = 0.27;
 	f[f_ac_su] = 0.41;
+	f[f_pro_c4] = 0.54;
+	f[f_ac_fa] = 0.7;
+	f[f_ac_pro] = 0.57;
+	f[f_ac_c4_8] = 0.31;
+	f[f_ac_c4_9] = 0.8;
+	f[f_h2_fa] = 0.30;
+	f[f_h2_c4_8] = 0.15;
+	f[f_h2_c4_9] = 0.20;
+	f[f_h2_pro] = 0.43;
 
-	N[N_xc] = 0.0376 / 14.0;
+
+	N[N_c] = 0.0376 / 14.0;
 	N[N_I] = 0.06 / 14.0;
 	N[N_aa] = 0.0070;
 	N[N_bac] = 0.08 / 14;
 
-	C[C_xc] = 0.02786;
+	C[C_c] = 0.02786;
 	C[C_SI] = 0.03;
 	C[C_ch] = 0.0313;
 	C[C_li] = 0.022;
@@ -145,6 +157,20 @@ Variables init_variables() {
 	S_in[S_IC] = 0.04;
 	S_in[S_IN] = 0.01;
 	S_in[S_I] = 0.02;
+	S_in[S_cat] = 0.04;
+	S_in[S_an] = 0.02;
+	S_in[S_H_ion] = 1.0;
+	S_in[S_va_ion] = 0.0;
+	S_in[S_bu_ion] = 0.0;
+	S_in[S_pro_ion] = 0.0;
+	S_in[S_ac_ion] = 0.0;
+	S_in[S_hco3_ion] = 0.0;
+	S_in[S_co2] = 0.0;
+	S_in[S_nh3] = 0.0;
+	S_in[S_nh4_ion] = 0.0;
+	S_in[S_gas_h2] = 0.0;
+	S_in[S_gas_ch4] = 0.0;
+	S_in[S_gas_co2] = 0.0;
 
 	X_in[X_c] = 2.0;
 	X_in[X_ch] = 5.0;
@@ -178,9 +204,9 @@ Variables init_variables() {
 	S[S_pro_ion] = 0.017511;
 	S[S_ac_ion] = 0.089035;
 	S[S_hco3_ion] = 0.08568;
-	S[S_co2] = 0.0094689;
+	S[S_co2] = S[S_IC] - S[S_hco3_ion]; // 0.0094689;
 	S[S_nh3] = 0.001884;
-	S[S_nh4_ion] = 0.092584;
+	S[S_nh4_ion] = S[S_IN] - S[S_nh3]; //0.092584;
 	S[S_gas_h2] = 1.10e-05;
 	S[S_gas_ch4] = 1.6535;
 	S[S_gas_co2] = 0.01354;
@@ -213,6 +239,16 @@ Variables init_variables() {
 	I[I_pH_aa] = 0.0;
 	I[I_pH_ac] = 0.0;
 	I[I_pH_h2] = 0.0;
+
+	D[D_S_va_ion] = 0.0;
+	D[D_S_bu_ion] = 0.0;
+	D[D_S_pro_ion] = 0.0;
+	D[D_S_ac_ion] = 0.0;
+	D[D_S_hco3_ion] = 0.0;
+	D[D_S_nh3] = 0.0;
+	D[D_S_co2] = 0.0;
+	D[D_S_H_ion] = 0.0;
+	D[D_S_nh4_ion] = 0.0;
 
 	Variables variables = {
 		.var = var,
@@ -330,9 +366,10 @@ void iterate_gas(Variables* v) {
 	v->p[p_gas_ch4] = v->S[S_gas_ch4] * (v->var[R] * v->var[T_ad]) / 64.0;
 	v->p[p_gas_co2] = v->S[S_gas_co2] * (v->var[R] * v->var[T_ad]);
 
-	real P_gas = v->p[p_gas_h2] + v->p[p_gas_ch4] + v->p[p_gas_co2] + v->p[p_gas_h2o];
+	v->p[p_gas] = v->p[p_gas_h2] + v->p[p_gas_ch4] + v->p[p_gas_co2] + v->p[p_gas_h2o];
 
-	v->var[Q_gas] = v->var[k_p] * (P_gas - v->var[P_atm]) * P_gas / v->var[P_atm];
+	v->var[Q_gas] = v->var[k_p] * (v->p[p_gas] - v->var[P_atm]) * v->p[p_gas] / v->var[P_atm];
+	v->var[Q_ch4] = v->var[Q_gas] * (v->p[p_gas_ch4] / v->p[p_gas]);
 }
 
 void iterate_rate(Variables* v) {
@@ -363,29 +400,22 @@ void iterate_rate(Variables* v) {
 	v->rate[rate_T_9] = v->K[K_La] * (v->S[S_ch4] - 64.0 * v->K[K_H_ch4] * v->p[p_gas_ch4]);
 	v->rate[rate_T_10] = v->K[K_La] * (v->S[S_co2] - v->K[K_H_co2] * v->p[p_gas_co2]);
 }
+void print_variables(Variables* v) {
+	printf("I_pH_aa: %.12f\nI_pH_ac: %.12f\nI_pH_h2: %.12f\nI_IN_lim: %.12f\nI_h2_fa: %.12f\nI_h2_c4: %.12f\nI_h2_pro: %.12f\nI_nh3: %.12f\nI_5: %.12f\nI_6: %.12f\nI_7: %.12f\nI_8: %.12f\nI_9: %.12f\nI_10: %.12f\nI_11: %.12f\nI_12: %.12f\nrate_1: %.12f\nrate_2: %.12f\nrate_3: %.12f\nrate_4: %.12f\nrate_5: %.12f\nrate_6: %.12f\nrate_7: %.12f\nrate_8: %.12f\nrate_9: %.12f\nrate_10: %.12f\nrate_11: %.12f\nrate_12: %.12f\nrate_13: %.12f\nrate_14: %.12f\nrate_15: %.12f\nrate_16: %.12f\nrate_17: %.12f\nrate_18: %.12f\nrate_19: %.12f\np_gas_h2: %.12f\np_gas_ch4: %.12f\np_gas_co2: %.12f\np_gas: %.12f\nQ_gas: %.12f\nQ_ch4: %.12f\nrate_T_8: %.12f\nrate_T_9: %.12f\nrate_T_10: %.12f\nD_S_su: %.12f\nD_S_aa: %.12f\nD_S_fa: %.12f\nD_S_va: %.12f\nD_S_bu: %.12f\nD_S_pro: %.12f\nD_S_ac: %.12f\nD_S_h2: %.12f\nD_S_ch4: %.12f\nD_S_IC: %.12f\nD_S_IN: %.12f\nD_S_I: %.12f\nD_X_c: %.12f\nD_X_ch: %.12f\nD_X_pr: %.12f\nD_X_li: %.12f\nD_X_su: %.12f\nD_X_aa: %.12f\nD_X_fa: %.12f\nD_X_c4: %.12f\nD_X_pro: %.12f\nD_X_ac: %.12f\nD_X_h2: %.12f\nD_X_I: %.12f\nD_S_cat: %.12f\nD_S_an: %.12f\nD_S_H_ion: %.12f\nD_S_va_ion: %.12f\nD_S_bu_ion: %.12f\nD_S_pro_ion: %.12f\nD_S_ac_ion: %.12f\nD_S_hco3_ion: %.12f\nD_S_co2: %.12f\nD_S_nh3: %.12f\nD_S_nh4_ion: %.12f\nD_S_gas_h2: %.12f\nD_S_gas_ch4: %.12f\nD_S_gas_co2: %.12f\n", v->I[I_pH_aa], v->I[I_pH_ac], v->I[I_pH_h2], v->I[I_IN_lim], v->I[I_h2_fa], v->I[I_h2_c4], v->I[I_h2_pro], v->I[I_nh3], v->I[I_5], v->I[I_6], v->I[I_7], v->I[I_8], v->I[I_9], v->I[I_10], v->I[I_11], v->I[I_12], v->rate[rate_1], v->rate[rate_2], v->rate[rate_3], v->rate[rate_4], v->rate[rate_5], v->rate[rate_6], v->rate[rate_7], v->rate[rate_8], v->rate[rate_9], v->rate[rate_10], v->rate[rate_11], v->rate[rate_12], v->rate[rate_13], v->rate[rate_14], v->rate[rate_15], v->rate[rate_16], v->rate[rate_17], v->rate[rate_18], v->rate[rate_19], v->p[p_gas_h2], v->p[p_gas_ch4], v->p[p_gas_co2], v->p[p_gas], v->var[Q_gas], v->var[Q_ch4], v->rate[rate_T_8], v->rate[rate_T_9], v->rate[rate_T_10], v->D[D_S_su], v->D[D_S_aa], v->D[D_S_fa], v->D[D_S_va], v->D[D_S_bu], v->D[D_S_pro], v->D[D_S_ac], v->D[D_S_h2], v->D[D_S_ch4], v->D[D_S_IC], v->D[D_S_IN], v->D[D_S_I], v->D[D_X_c], v->D[D_X_ch], v->D[D_X_pr], v->D[D_X_li], v->D[D_X_su], v->D[D_X_aa], v->D[D_X_fa], v->D[D_X_c4], v->D[D_X_pro], v->D[D_X_ac], v->D[D_X_h2], v->D[D_X_I], v->D[D_S_cat], v->D[D_S_an], v->D[D_S_H_ion], v->D[D_S_va_ion], v->D[D_S_bu_ion], v->D[D_S_pro_ion], v->D[D_S_ac_ion], v->D[D_S_hco3_ion], v->D[D_S_co2], v->D[D_S_nh3], v->D[D_S_nh4_ion], v->D[D_S_gas_h2], v->D[D_S_gas_ch4], v->D[D_S_gas_co2]);
+
+	// printf("D_S_su: %f, D_S_aa: %f, D_S_fa: %f, D_S_va: %f, D_S_bu: %f, D_S_pro: %f, D_S_ac: %f, D_S_h2: %f, D_S_ch4: %f, D_S_IC: %f, D_S_IN: %f, D_S_I: %f, D_S_cat: %f, D_S_an: %f, D_S_gas_h2: %f, D_S_gas_ch4: %f, D_S_gas_co2: %f, D_X_c: %f, D_X_ch: %f, D_X_pr: %f, D_X_li: %f, D_X_su: %f, D_X_aa: %f, D_X_fa: %f, D_X_c4: %f, D_X_pro: %f, D_X_ac: %f, D_X_h2: %f, D_X_I: %f\n", v->D[D_S_su], v->D[D_S_aa], v->D[D_S_fa], v->D[D_S_va], v->D[D_S_bu], v->D[D_S_pro], v->D[D_S_ac], v->D[D_S_h2], v->D[D_S_ch4], v->D[D_S_IC], v->D[D_S_IN], v->D[D_S_I], v->D[D_S_cat], v->D[D_S_an], v->D[D_S_gas_h2], v->D[D_S_gas_ch4], v->D[D_S_gas_co2], v->D[D_X_c], v->D[D_X_ch], v->D[D_X_pr], v->D[D_X_li], v->D[D_X_su], v->D[D_X_aa], v->D[D_X_fa], v->D[D_X_c4], v->D[D_X_pro], v->D[D_X_ac], v->D[D_X_h2], v->D[D_X_I]);
+}
 
 void iterate_differential(Variables* v) {
 	iterate_rate(v);
 
 	real tau = (v->var[Q_ad] / v->var[V_ad_liq]);
 
-	v->f[f_pro_c4] = 0.54;
-	v->f[f_ac_fa] = 0.7;
-	v->f[f_ac_pro] = 0.57;
-	v->f[f_ac_c4_8] = 0.31;
-	v->f[f_ac_c4_9] = 0.8;
-	v->f[f_h2_fa] = 0.30;
-	v->f[f_h2_c4_8] = 0.15;
-	v->f[f_h2_c4_9] = 0.20;
-	v->f[f_h2_pro] = 0.43;
-	// v->f[f_ac_fa] = 0.7;
-	v->f[f_pro_c4] = 0.54;
-
 	real sum = 0.0
-	+ (-v->C[C_xc] + v->f[f_SI_xc] * v->C[C_SI] * v->f[f_ch_xc] * v->C[C_ch] + v->f[f_pr_xc] * v->C[C_pr] + v->f[f_li_xc] * v->C[C_li] + v->f[f_XI_xc] * v->C[C_XI]) * v->rate[rate_1]
+	+ (-v->C[C_c] + v->f[f_SI_c] * v->C[C_SI] * v->f[f_ch_c] * v->C[C_ch] + v->f[f_pr_c] * v->C[C_pr] + v->f[f_li_c] * v->C[C_li] + v->f[f_XI_c] * v->C[C_XI]) * v->rate[rate_1]
 	+ (-v->C[C_ch] + v->C[C_su]) * v->rate[rate_2]
 	+ (-v->C[C_pr] + v->C[C_aa]) * v->rate[rate_3]
-	+ (-v->C[C_li] + (1 - v->f[f_la_li]) * v->C[C_su] + v->f[f_fa_li] * v->C[C_fa]) * v->rate[rate_4]
+	+ (-v->C[C_li] + (1 - v->f[f_fa_li]) * v->C[C_su] + v->f[f_fa_li] * v->C[C_fa]) * v->rate[rate_4]
 	+ (-v->C[C_su] + (1 - v->Y[Y_su]) * (v->f[f_bu_su] * v->C[C_bu] + v->f[f_pro_su] * v->C[C_pro] + v->f[f_ac_su] * v->C[C_ac]) + v->Y[Y_su] * v->C[C_bac]) * v->rate[rate_5]
 	+ (-v->C[C_aa] + (1 - v->Y[Y_aa]) * (v->f[f_va_aa] * v->C[C_aa] + v->f[f_bu_aa] * v->C[C_bu] + v->f[f_pro_aa] * v->C[C_pro] + v->f[f_ac_aa] * v->C[C_ac]) + v->Y[Y_aa] * v->C[C_bac]) * v->rate[rate_6]
 	+ (-v->C[C_fa] + (1 - v->Y[Y_aa]) * v->f[f_ac_fa] * v->C[C_ac] + v->Y[Y_fa] * v->C[C_bac]) * v->rate[rate_7]
@@ -394,7 +424,7 @@ void iterate_differential(Variables* v) {
 	+ (-v->C[C_pro] + (1 - v->Y[Y_pro]) * v->f[f_ac_pro] * v->C[C_ac] + v->Y[Y_pro] * v->C[C_bac]) * v->rate[rate_10]
 	+ (-v->C[C_ac] + (1 - v->Y[Y_ac]) * v->C[C_ch4] + v->Y[Y_ac] * v->C[C_bac]) * v->rate[rate_11]
 	+ ((1 - v->Y[Y_h2]) * v->C[C_ch4] + v->Y[Y_h2] * v->C[C_bac]) * v->rate[rate_12]
-	+ (-v->C[C_bac] + v->C[C_xc]) * (v->rate[rate_13] + v->rate[rate_14] + v->rate[rate_15] + v->rate[rate_16] + v->rate[rate_17] + v->rate[rate_18] + v->rate[rate_19]);
+	+ (-v->C[C_bac] + v->C[C_c]) * (v->rate[rate_13] + v->rate[rate_14] + v->rate[rate_15] + v->rate[rate_16] + v->rate[rate_17] + v->rate[rate_18] + v->rate[rate_19]);
 
 	v->D[D_S_su] = tau * (v->S_in[S_su] - v->S[S_su]) + v->rate[rate_2] + (1 - v->f[f_fa_li]) * v->rate[rate_4] - v->rate[rate_5];
 	v->D[D_S_aa] = tau * (v->S_in[S_aa] - v->S[S_aa]) + v->rate[rate_3] - v->rate[rate_6];
@@ -405,11 +435,19 @@ void iterate_differential(Variables* v) {
 	v->D[D_S_ac] = tau * (v->S_in[S_ac] - v->S[S_ac]) + (1 - v->Y[Y_su]) * v->f[f_ac_su] * v->rate[rate_5] + (1 - v->Y[Y_aa]) * v->f[f_ac_aa] * v->rate[rate_6] + (1 - v->Y[Y_fa]) * v->f[f_ac_fa] * v->rate[rate_7] + (1 - v->Y[Y_c4]) * v->f[f_ac_c4_8] * v->rate[rate_8] + (1 - v->Y[Y_c4]) * v->f[f_ac_c4_9] * v->rate[rate_9] + (1 - v->Y[Y_pro]) * v->f[f_ac_pro] * v->rate[rate_10] - v->rate[rate_11];
 	v->D[D_S_h2] = tau * (v->S_in[S_h2] - v->S[S_h2]) + (1 - v->Y[Y_su]) * v->f[f_h2_su] * v->rate[rate_5] + (1 - v->Y[Y_aa]) * v->f[f_h2_aa] * v->rate[rate_6] + (1 - v->Y[Y_fa]) * v->f[f_h2_fa] * v->rate[rate_7] + (1 - v->Y[Y_c4]) * v->f[f_h2_c4_8] * v->rate[rate_8] + (1 - v->Y[Y_c4]) * v->f[f_h2_c4_9] * v->rate[rate_9] + (1 - v->Y[Y_pro]) * v->f[f_h2_pro] * v->rate[rate_10] - v->rate[rate_12] - v->rate[rate_T_8];
 	v->D[D_S_ch4] = tau * (v->S_in[S_ch4] - v->S[S_ch4]) + (1 - v->Y[Y_ac]) * v->rate[rate_11] + (1 + v->Y[Y_h2]) * v->rate[rate_12] - v->rate[rate_T_9];
+	v->D[D_S_IC] = tau * (v->S_in[S_IC] - v->S[S_IC]) - sum - v->rate[rate_T_10];
+	v->D[D_S_IN] = tau * (v->S_in[S_IN] - v->S[S_IN]) - v->Y[Y_su] * v->N[N_bac] * v->rate[rate_5] + (v->N[N_aa] - v->Y[Y_aa] * v->N[N_bac]) * v->rate[rate_6] - v->Y[Y_fa] * v->N[N_bac] * v->rate[rate_7] - v->Y[Y_c4] * v->N[N_bac] * v->rate[rate_8] - v->Y[Y_c4] * v->N[N_bac] * v->rate[rate_9] - v->Y[Y_pro] * v->N[N_bac] * v->rate[rate_10] - v->Y[Y_ac] * v->N[N_bac] * v->rate[rate_11] - v->Y[Y_h2] * v->N[N_bac] * v->rate[rate_12] + (v->N[N_bac] - v->N[N_c]) * (v->rate[rate_13] + v->rate[rate_14] + v->rate[rate_15] + v->rate[rate_16] + v->rate[rate_17] + v->rate[rate_18] + v->rate[rate_19]) + (v->N[N_c] - v->f[f_XI_c] * v->N[N_I] - v->f[f_SI_c] * v->N[N_I] - v->f[f_pr_c] * v->N[N_aa]) * v->rate[rate_1];
+	v->D[D_S_I] = tau * (v->S_in[S_I] - v->S[S_I]) + v->f[f_SI_c] * v->rate[rate_1];
+	v->D[D_S_cat] = tau * (v->S_in[S_cat] - v->S[S_cat]);
+	v->D[D_S_an] = tau * (v->S_in[S_an] - v->S[S_an]);
+	v->D[D_S_gas_h2] = (v->var[Q_gas] / v->var[V_ad_gas] * -v->S[S_gas_h2]) * (v->rate[rate_T_8] * v->var[V_ad_liq] / v->var[V_ad_gas]);
+	v->D[D_S_gas_ch4] = (v->var[Q_gas] / v->var[V_ad_gas] * -v->S[S_gas_ch4]) * (v->rate[rate_T_9] * v->var[V_ad_liq] / v->var[V_ad_gas]);
+	v->D[D_S_gas_co2] = (v->var[Q_gas] / v->var[V_ad_gas] * -v->S[S_gas_co2]) * (v->rate[rate_T_10] * v->var[V_ad_liq] / v->var[V_ad_gas]);
 
 	v->D[D_X_c] = tau * (v->X_in[X_c] - v->X[X_c]) - v->rate[rate_1] + v->rate[rate_13] + v->rate[rate_14] + v->rate[rate_15] + v->rate[rate_16] + v->rate[rate_17] + v->rate[rate_18] + v->rate[rate_19];
-	v->D[D_X_ch] = tau * (v->X_in[X_ch] - v->X[X_ch]) + v->f[f_ch_xc] * v->rate[rate_1] - v->rate[rate_2];
-	v->D[D_X_pr] = tau * (v->X_in[X_pr] - v->X[X_pr]) + v->f[f_pr_xc] * v->rate[rate_1] - v->rate[rate_3];
-	v->D[D_X_li] = tau * (v->X_in[X_li] - v->X[X_li]) + v->f[f_li_xc] * v->rate[rate_1] - v->rate[rate_4];
+	v->D[D_X_ch] = tau * (v->X_in[X_ch] - v->X[X_ch]) + v->f[f_ch_c] * v->rate[rate_1] - v->rate[rate_2];
+	v->D[D_X_pr] = tau * (v->X_in[X_pr] - v->X[X_pr]) + v->f[f_pr_c] * v->rate[rate_1] - v->rate[rate_3];
+	v->D[D_X_li] = tau * (v->X_in[X_li] - v->X[X_li]) + v->f[f_li_c] * v->rate[rate_1] - v->rate[rate_4];
 	v->D[D_X_su] = tau * (v->X_in[X_su] - v->X[X_su]) + v->Y[Y_su] * v->rate[rate_5] - v->rate[rate_13];
 	v->D[D_X_aa] = tau * (v->X_in[X_aa] - v->X[X_aa]) + v->Y[Y_aa] * v->rate[rate_6] - v->rate[rate_14];
 	v->D[D_X_fa] = tau * (v->X_in[X_fa] - v->X[X_fa]) + v->Y[Y_fa] * v->rate[rate_7] - v->rate[rate_15];
@@ -417,9 +455,45 @@ void iterate_differential(Variables* v) {
 	v->D[D_X_pro] = tau * (v->X_in[X_pro] - v->X[X_pro]) + v->Y[Y_pro] * v->rate[rate_10] - v->rate[rate_17];
 	v->D[D_X_ac] = tau * (v->X_in[X_ac] - v->X[X_ac]) + v->Y[Y_ac] * v->rate[rate_11] - v->rate[rate_18];
 	v->D[D_X_h2] = tau * (v->X_in[X_h2] - v->X[X_h2]) + v->Y[Y_h2] * v->rate[rate_12] - v->rate[rate_19];
-	v->D[D_X_I] = tau * (v->X_in[X_I] - v->X[X_I]) + v->f[f_XI_xc] * v->rate[rate_1];
-	v->D[D_S_cat] = tau * (v->S_in[S_cat] - v->S[S_cat]);
-	v->D[D_S_an] = tau * (v->S_in[S_an] - v->S[S_an]);
+	v->D[D_X_I] = tau * (v->X_in[X_I] - v->X[X_I]) + v->f[f_XI_c] * v->rate[rate_1];
+}
+
+void solve(Variables* v, real delta, u32 iterations) {
+	for(int i = 0; i < iterations; i++) {
+		iterate_differential(v);
+		print_variables(v);
+
+		v->S[S_su] += v->S[D_S_su] * delta;
+		v->S[S_aa] += v->S[D_S_aa] * delta;
+		v->S[S_fa] += v->S[D_S_fa] * delta;
+		v->S[S_va] += v->S[D_S_va] * delta;
+		v->S[S_bu] += v->S[D_S_bu] * delta;
+		v->S[S_pro] += v->S[D_S_pro] * delta;
+		v->S[S_ac] += v->S[D_S_ac] * delta;
+		v->S[S_h2] += v->S[D_S_h2] * delta;
+		v->S[S_ch4] += v->S[D_S_ch4] * delta;
+		v->S[S_IC] += v->S[D_S_IC] * delta;
+		v->S[S_IN] += v->S[D_S_IN] * delta;
+		v->S[S_I] += v->S[D_S_I] * delta;
+		v->S[S_cat] += v->D[D_S_cat] * delta;
+		v->S[S_an] += v->D[D_S_an] * delta;
+		v->S[S_gas_h2] += v->D[D_S_gas_h2] * delta;
+		v->S[S_gas_ch4] += v->D[D_S_gas_ch4] * delta;
+		v->S[S_gas_co2] += v->D[D_S_gas_co2] * delta;
+
+		v->X[X_c] += v->D[D_X_c] * delta;
+		v->X[X_ch] += v->D[D_X_ch] * delta;
+		v->X[X_pr] += v->D[D_X_pr] * delta;
+		v->X[X_li] += v->D[D_X_li] * delta;
+		v->X[X_su] += v->D[D_X_su] * delta;
+		v->X[X_aa] += v->D[D_X_aa] * delta;
+		v->X[X_fa] += v->D[D_X_fa] * delta;
+		v->X[X_c4] += v->D[D_X_c4] * delta;
+		v->X[X_pro] += v->D[D_X_pro] * delta;
+		v->X[X_ac] += v->D[D_X_ac] * delta;
+		v->X[X_h2] += v->D[D_X_h2] * delta;
+		v->X[X_I] += v->D[D_X_I] * delta;
+	}
 }
 
 // u[0] = S_su

@@ -1,5 +1,5 @@
 \startsection[title={Modelo fermentativo}]
-	A modelagem do processo de fermentação é essencial para seu estudo, porque toda otimização é tão bem feita quanto o modelo físico-químico permite \cite[authoryear][ref::ureta_0]. Seguindo as diretrizes do modelo paramétrico formulado, é possivel estimar os valores desses parâmetros a partir do processamento de dados de um conjunto de experimentos cuidadosamentes planejados e executados. Validação desses resultados é uma ação rotineira no exercício de desenvolvimento de modelos devidamente equacionados \cite[authoryear][ref::ureta_0].
+	A modelagem do processo de fermentação é essencial para seu estudo, porque toda otimização do processo é tão bem feita quanto o modelo físico-químico permite \cite[authoryear][ref::ureta_0]. Seguindo as diretrizes do modelo paramétrico formulado, é possivel estimar os valores desses parâmetros a partir do processamento de dados de um conjunto de experimentos cuidadosamentes planejados e executados. Validação desses resultados é uma ação rotineira no exercício de desenvolvimento de modelos devidamente equacionados \cite[authoryear][ref::ureta_0].
 
 	O primeiro passo para o desenvolvimento de um modelo fermentativo é a analise qualitativa da estrutura do sistema fermentativo, e entendimento das rotas metabólicas. Em seguida, deve-se formular um modelo matemático que segue as definições a priori utilizadas na etapa anterior. Por último é necessário a identificação dos valores numéricos que substituirão os parâmetros e constantes do modelo, baseados em dados experimentais reais de um processo.
 
@@ -9,7 +9,38 @@
 		\startformula
 			r_{1} = k S \breakhere
 			r_{2} = k S^{n} \breakhere
-			r_{3} = \frac{k S}{K + S}
+			r_{3} = \frac{k S}{K + S} \breakhere
+			r_{4} = \frac{k S}{K + S} I
 		\stopformula
 	\stopplaceformula
+
+	Em que \math{K} é a constante limitante da taxa de reação, \math{k} a constante de taxa de reação, \math{I} representa a inibição, e \math{S} a concentração de algum substrato ou biomassa.
+
+	{\emph Anaerobic Digestion Model no 1} (ADM1) é uma das alternativas para modelos fermentativos praticos de aplicação industrial, que envolve diversos componentes, tipos de microorganismos, reações e inibições com base em equações diferenciais \cite[authoryear][ref::batstone_0]. Neste modelo é possivel representar as diferentes etapas da vida de um microorganismo atraves da alteração das constantes de reação, permitindo modelar, fases de crestimento, morte e atraso, para isso é necessário introduzir equações diferenciais que respeitam as variações de biomassa como da \in{Equação}[eq:biomass_differential].
+
+	\startplaceformula[reference={eq:biomass_differential}]
+		\startformula
+			\frac{\dd X_{a}}{\dd t} = k_{a1} X_{a} - k_{a2} X_{a}
+		\stopformula
+	\stopplaceformula
+
+	Em que \math{X} é a concentração de biomassa ativa, e \math{k_{a1}, k_{a2}} são as constantes de crescimento e desativação respectivamente.
+
+	Os mecanismos de reação modelados no ADM1 começam com a desintegração de um particulado complexo em carboidrato, proteina, gordura, inerte soluvel e inerte insoluvel. A partir deste ponto, acontece a hidrolise desses compostos em monosacarídeos, amino ácidos e ácidos graxos, seguindo para a formação de compostos como \chemical{valerato}, \chemical{butirato}, \chemical{propianato}, \chemical{acetato}, \chemical{hidrogênio} \chemical{dióxido de carbono}, \chemical{metano}, entre outros. Estas etapas, mostradas na \in{Figura}[fig:desintegration_path], o tornam um modelo genérico capaz de representar uma cultura mista de biomassa acídogênica, acetogênica e metanogênica, com boa aproximação para sistemas industriais.
+
+	\startplacefigure[title={Caminho de desintegração e hidrolise do ADM1}, reference={fig:desintegration_path}]
+		\externalfigure[image/desintegration_path.png][height=200pt]
+	\stopplacefigure
+
+	A forma basica de uma equação diferencial para líquidos no modelo é dado na \in{Equação}[eq:soluble_differential].
+
+	\startplaceformula[reference={eq:soluble_differential}]
+		\startformula
+			\frac{\dd S}{\dd t} = \frac{Q}{V} \left\lparen S_{i} - S_{o} \right\rparen + \sum_{j} \rho_{j} \nu_{ji}
+		\stopformula
+	\stopplaceformula
+
+	Em que vazão, volume, concentração de entrada do solúvel, concentração de saida do solúvel, taxa cinética e coeficiente cinético são representados por \math{Q}, \math{V}, \math{S_{i}}, \math{S_{o}}, \math{rho_{j}} e \math{\nu_{ji}} respectivamente.
+
+	Outro equacionamento importante do ADM1 é o equilíbrio ácido-base, necessário para o calculo do pH, da possivel inibição de taxas de reações e do crescimento da biomassa. Este equacionamento é dado pela utilização da concentração dos ions na solução, e das constantes de equilíbrio previamente definidas, culminando em uma EDO, ou em uma equação algebrica diferencial de solução iterativa.
 \stopsection

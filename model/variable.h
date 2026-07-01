@@ -22,17 +22,18 @@ typedef struct {
 	real* rate;
 	real* I;
 	real* p;
+	real* D;
 } Variables;
 
 Variables init_variables();
-void iterate_rate(Variables* v);
+void solve(Variables*, real, u32);
 
 enum {
-	f_SI_xc,
-	f_XI_xc,
-	f_ch_xc,
-	f_pr_xc,
-	f_li_xc,
+	f_SI_c,
+	f_XI_c,
+	f_ch_c,
+	f_pr_c,
+	f_li_c,
 	f_fa_li,
 	f_h2_aa,
 	f_va_aa,
@@ -43,11 +44,20 @@ enum {
 	f_bu_su,
 	f_pro_su,
 	f_ac_su,
+	f_pro_c4,
+	f_ac_fa,
+	f_ac_pro,
+	f_ac_c4_8,
+	f_ac_c4_9,
+	f_h2_fa,
+	f_h2_c4_8,
+	f_h2_c4_9,
+	f_h2_pro,
 	f_count,
 };
 
 enum {
-	N_xc,
+	N_c,
 	N_I,
 	N_aa,
 	N_bac,
@@ -55,10 +65,11 @@ enum {
 };
 
 enum {
-	C_xc,
+	C_c,
 	C_SI,
 	C_ch,
 	C_li,
+	C_pr,
 	C_XI,
 	C_su,
 	C_aa,
@@ -246,7 +257,49 @@ enum {
 	p_gas_ch4,
 	p_gas_co2,
 	p_gas_h2o,
+	p_gas,
 	p_count
+};
+enum {
+	D_S_su,
+	D_S_aa,
+	D_S_fa,
+	D_S_va,
+	D_S_bu,
+	D_S_pro,
+	D_S_ac,
+	D_S_h2,
+	D_S_ch4,
+	D_S_IC,
+	D_S_IN,
+	D_S_I,
+	D_S_cat,
+	D_S_an,
+	D_X_c,
+	D_X_ch,
+	D_X_pr,
+	D_X_li,
+	D_X_su,
+	D_X_aa,
+	D_X_fa,
+	D_X_c4,
+	D_X_pro,
+	D_X_ac,
+	D_X_h2,
+	D_X_I,
+	D_S_gas_h2,
+	D_S_gas_ch4,
+	D_S_gas_co2,
+	D_S_va_ion,
+	D_S_bu_ion,
+	D_S_pro_ion,
+	D_S_ac_ion,
+	D_S_hco3_ion,
+	D_S_nh3,
+	D_S_co2,
+	D_S_H_ion,
+	D_S_nh4_ion,
+	D_count,
 };
 
 enum {
@@ -264,6 +317,7 @@ enum {
 
 	Q_ad,
 	Q_gas,
+	Q_ch4,
 
 	var_count,
 };
