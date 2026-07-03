@@ -134,7 +134,7 @@
 
 			Os pesos \math{W_{xo}, W_{xi}, W_{xf} \in \reals^{d \times h}}, tais que \math{h} é a quantidade de neurônios na camada oculta, performa modificações em cima da entrada \math{X_{t} \in \reals^{n \times d}} e do estado oculto das amostras anteriores \math{H_{t - 1} \in \reals^{n \times h}} com auxilio dos pesos \math{W_{ho}, W_{hi}, W_{hf} \in \reals^{h \times h}} e coeficientes lineares \math{B_{o}, B_{i}, B_{f} \in \reals^{1 \times h}}. A nomenclatura saída para \math{O_{t}}, não simboliza a dependência de \math{H_{t}}, na realidade, o contrário é verdadeiro. O \in{Sistema de Equações}[eq:lstm_hidden] mostra que o estado oculto \math{H_{t}} é calculado a partir do resultado do portão de saída \math{O_{t}}.
 
-			A próxima etapa é a contrução de uma célula chamda candidata de memória \math{\tilde{C_{t}} \in \reals^{n \times h}}, calculada similarmente aos portões anteriores, com a introdução da função tangente hiperbólica para restrição do seu valor em \math{\left\lparen -1, 1 \right\rparen}. Os pesos \math{W_{xc} \in \reals^{d \times h}}, \math{W_{hc} \in \reals^{h \times h}} e coeficiente \math{B_{c}} tem papéis idênticos no \in{Sistema}[eq:lstm_hidden].
+			A próxima etapa é a contrução de uma célula chamda candidata de memória \math{\tilde{C_{t}} \in \reals^{n \times h}}, calculada similarmente aos portões anteriores, com a introdução da função tangente hiperbólica para restrição do seu valor em \math{\left\lbracket -1, 1 \right\rbracket}. Os pesos \math{W_{xc} \in \reals^{d \times h}}, \math{W_{hc} \in \reals^{h \times h}} e coeficiente \math{B_{c}} tem papéis idênticos no \in{Sistema}[eq:lstm_hidden].
 
 			\startplaceformula[reference={eq:lstm_hidden}]
 				\startformula
@@ -144,7 +144,7 @@
 				\stopformula
 			\stopplaceformula
 
-			\math{C_{t}} e \math{H_{t}} utilizam o operador \math{\odot} para multiplicar membro a membro as matrizes de interesse no \in{Sistema}[eq:lstm_hidden]. É possivel assumir que \math{H_{t} \in \left\lparen -1, 1 \right\rparen} porque \math{O_{t} \in \left\lparen 0, 1 \right\rparen} e \math{\tanh \left\lparen C_{t} \right\rparen \in \left\lparen -1, 1 \right\rparen}.
+			\math{C_{t}} e \math{H_{t}} utilizam o operador \math{\odot} para multiplicar membro a membro as matrizes de interesse no \in{Sistema}[eq:lstm_hidden]. É possivel assumir que \math{H_{t} \in \left\lbracket -1, 1 \right\rbracket} porque \math{O_{t} \in \left\lbracket 0, 1 \right\rbracket} e \math{\tanh \left\lparen C_{t} \right\rparen \in \left\lbracket -1, 1 \right\rbracket}.
 		\stophead
 	\stopitemize
 \stopsection

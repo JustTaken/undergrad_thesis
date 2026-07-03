@@ -1,0 +1,37 @@
+\startsection[title={Sensores}]
+	A princípio, as variáveis medidas podem apresentar uma colinearidade relativamente alta, mas o método de analise para produção de \getbuffer[sens] é projetada para funcionar através da utilização de uma caixa preta (LSTM), portanto o projeto do sistema de medição tem por papel medir todas as variáveis ao alcançe dos sensores disponíveis.
+
+	\startitemize
+		\starthead{Temperatura}
+			A maior acurácia de medição, dentre os disponíveis, é proporcionado pelo sensor de temperatura. A \in{Figura}[fig:thermostate] ilustra o sensor utilizado, este opera com o protocolo {\emph one-wire}, ou seja, somente uma conexão é necessária para a comunicação com o controlador.
+
+			\startplacefigure[title={Sensor de temperatura DS18B20}, reference={fig:thermostate}]
+				\externalfigure[image/thermostate.png][height=400pt]
+			\stopplacefigure
+		\stophead
+
+		\starthead{Potência de Oxirredução}
+			O potêncial de oxidação-redução da solução é uma medida representativa so equilibrio iônico desta. Esse sensor atua como um substituto ao sensor de pH.
+		\stophead
+
+		\starthead{Hidrogênio}
+			O papel do sensor de hidrogênio é de permitir o treinamento do algorítimo LSTM.
+		\stophead
+
+		\starthead{Metano}
+			Outro sensor que serve como base para o treinamento do soft sensor para a substituição do sensor físico, neste caso, de metano.
+		\stophead
+
+		\starthead{Ácidos Graxos Voláteis}
+			Os ácidos gráxos, são importantes para a produção de hidroênio, por conta da sua utilizasão em eletrólise microbiana, permitindo a existência de um processo secundário de evolução de hidrogênio.
+		\stophead
+
+		%\starthead{Substrato}
+		%	O substrato é formado por uma composição complexa e existem algumas dificuldades em medir sua concentração {\emph online}, portanto, a presença do substrato impoe a necessidade de uma amostragem recorrente, e medida {\emph offline}.
+		%\stophead
+
+		%\starthead{Biomassa}
+		%	Assim como o substrato, a biomassa tem suas particularidades, composição complexa e tem de ser medida com cromatografia {\emph offline}.
+		%\stophead
+	\stopitemize
+\stopsection
