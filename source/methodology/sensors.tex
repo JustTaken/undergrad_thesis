@@ -8,14 +8,22 @@
 			\startplacefigure[title={Sensor de temperatura DS18B20}, reference={fig:thermostate}]
 				\externalfigure[image/thermostate.png][height=400pt]
 			\stopplacefigure
+
+			A faixa de medição desse sensor é entre \math{\left\lbracket -55, 120 \right\rbracket \celsius}, sendo a precisão, dentro dessa faixa, de \math{\pm 0.5}.
 		\stophead
 
 		\starthead{Potência de Oxirredução}
 			O potêncial de oxidação-redução da solução é uma medida representativa so equilibrio iônico desta. Esse sensor atua como um substituto ao sensor de pH.
+
+			\startplacefigure[title={Sensor de potêncial de oxirredução}, reference={fig:oxireduction_potential}]
+				\externalfigure[image/oxireduction_potential.png][height=400pt, width=\textwidth]
+			\stopplacefigure
+
+			A faixa de medição desse sensor é entre 
 		\stophead
 
 		\starthead{Hidrogênio}
-			O papel do sensor de hidrogênio é de permitir o treinamento do algorítimo LSTM.
+			O papel do sensor de hidrogênio é de permitir o treinamento do algorítimo LSTM. Para a predição da produção de hidrogênio no processo fermentativo.
 		\stophead
 
 		\starthead{Metano}
@@ -23,7 +31,7 @@
 		\stophead
 
 		\starthead{Ácidos Graxos Voláteis}
-			Os ácidos gráxos, são importantes para a produção de hidroênio, por conta da sua utilizasão em eletrólise microbiana, permitindo a existência de um processo secundário de evolução de hidrogênio.
+			Os ácidos gráxos, são importantes para a produção de hidroênio, por conta da sua utilizasão em eletrólise microbiana, permitindo a existência de um processo secundário de evolução de hidrogênio. Portanto a sua determinação é importante para trabalhos futuros de otimização da produção de hidrogênio.
 		\stophead
 
 		%\starthead{Substrato}
