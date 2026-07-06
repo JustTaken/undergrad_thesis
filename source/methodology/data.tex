@@ -1,0 +1,15 @@
+\startsection[title={Coleta de Dados}]
+	A coleta de dados de temperatura, potêncial de oxirredução, concentração de hidrogênio, concentração de metano e concentração de dióxido de carbono são feitas {\emph online}, desta forma a sincronização dos dados é automaticamente manejada pelo sistema de sincronização do controlador.
+
+	A temperatura tem seu {\emph set point} em \math{80 \celsius}, enquanto as outras variáveis não são controladas. Isso se da por conta de algumas restrições operacionais do sistema, impedindo a realização de agitação e manutenção do \chemical{pH}, fazendo com que uma das propostas do trabalho seja predizer as variáveis de qualidade e concentração do processo sem que ele acontece com agitação ou controle de \chemical{pH}.
+\stopsection
+
+\startsection[title={Simulação}]
+	Juntamente com a coleta de dados reais, tem-se a coleta de dados simulados. Estes acontecem utilizando o modelo ADM1 com algumas introduções de aleatoriedades arbitrárias para aproximar o resultado ao de um sistema real e testar os limites da rede neural em capturar o comportamento de dados com ruído.
+
+	O modelo ADM1 selecionado é a variante testada por \cite[authoryears][ref::rosen_0], com as duas aproximações por equações algebricas diferenciais do \chemical{pH} e do \chemical{H_2} citadas neste trabalho.
+\stopsection
+
+\startsection[title={Tratamento de Dados}]
+	O tratamento dos dados temporais coletados...
+\stopsection
