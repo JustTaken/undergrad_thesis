@@ -16,10 +16,11 @@
 \setupitemize[2][nowhite]
 
 \setupTABLE[frame=off]
+\setupTABLE[r][each][align=center]
 \setupTABLE[r][1][topframe=on, bottomframe=on, style=\bf]
-\setupTABLE[r][last][bottomframe=on]
-\setupTABLE[align=middle]
 \setupTABLE[c][1][align=flushleft]
+\setupTABLE[r][last][bottomframe=on]
+\setupTABLE[leftoffset=.5em,rightoffset=.5em]
 
 \definebtxdataset[ref]
 \usebtxdataset[ref][source/reference.bib]
@@ -66,8 +67,9 @@
 	\stopfrontmatter
 
 	\startbodymatter
-		% \input{source/review/main.tex}
+		\input{source/review/main.tex}
 		\input{source/methodology/main.tex}
+		% \csvloadtable{data/strain_concentration_per_ph.csv}{2cm,5cm,5cm}
 	\stopbodymatter
 
 	\startbackmatter
