@@ -10,6 +10,14 @@
 	O modelo ADM1 selecionado é a variante testada por \cite[authoryears][ref::rosen_0], com as duas aproximações por equações algebricas diferenciais do \chemical{pH} e do \chemical{H_2} citadas neste trabalho.
 \stopsection
 
-\startsection[title={Tratamento de Dados}]
-	O tratamento dos dados temporais coletados...
+\startsection[title={Arquitetura}]
+	Os dados coletados pelos sensores e armazenados no servidor são pré-tatados para seguir ao treinamento do modelo LSTM, esse pré-tratamento é em primeira instância a retirada de valores incosistentes e sem pares de variáveis completos (ao faltar um valor de temperatura para um tempo \math{t} em que existem correspondentes de ORP e as concentrações dos gases), assim como uma inspeção visual do comportamento da curva formada pelos valores obtidos. Em seguida esses dados são normalizados de forma que o algorítimo de treinamento não encontre problemas típicos de explosão de gradiente devido aos valores em uma escala não adequada para seu funcionamento. O treinamento do modelo a partir dos dados armazenados é feito com o algorítimo LSTM, para ambas os tipos de coletas de dados, a feita experimentalmente e a simulação. Após o treinamento o modelo resultante é testado em dados novos para mensurar sua eficácia de predição.
+
+	\startplacefigure[title={Fluxograma da arquitetura de functionamento da planta operacional para produção, treinamento e futuro monitoramento de falhas}]
+		\externalfigure[image/architecture.png][height=400pt]
+	\stopplacefigure
+
+	A possibilidade gerada pela existencia de um \getbuffer[sens] é monitorar o processo para detectar possiveis desvio da idealidade, ou seja, detecção de falhas em tempo real.
+
+	Com a evolução do sistema fermentativo, para um passivel de ser completamente manipulado, desde temperatura, pH até a taxa de alimentação semi-batelada, e a pré-configuração de um detector de falhas em tempo real, é possivel, ainda, a implementação de um sistema de controle robusto, e resistente a modificações rotineiras de atividade metabólica, ou de condições operacionais. Que controle a agitação da pá do misturador, o pH através de soluções ácidas ou básicas, resfriamento ou aquicimento pela jaqueta revestindo o fermentador, inserção de substrato em diversos momentos durante o processo fermentativo e concentração de \chemical{CO_{2}} na atmosfera.
 \stopsection

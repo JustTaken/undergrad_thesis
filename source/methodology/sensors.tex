@@ -3,21 +3,13 @@
 
 	\startitemize
 		\starthead{Temperatura}
-			A maior acurácia de medição, dentre as disponíveis, é proporcionado pelo sensor de temperatura. A \in{Figura}[fig:thermostate] ilustra o sensor utilizado, este opera com o protocolo {\emph one-wire}, ou seja, somente uma conexão é necessária para a comunicação com o controlador.
+			A maior acurácia de medição, dentre as disponíveis, é proporcionado pelo sensor de temperatura. Este opera com o protocolo {\emph one-wire}, ou seja, somente uma conexão é necessária para a comunicação com o controlador.
 
-			\startplacefigure[title={Sensor de temperatura DS18B20}, reference={fig:thermostate}]
-				\externalfigure[image/thermostate.png][height=400pt]
-			\stopplacefigure
-
-			A faixa de medição desse sensor é entre \math{\left\lbracket -55, 120 \right\rbracket \celsius}, sendo a precisão, dentro dessa faixa, de \math{\pm 0.5}.
+			O DS18B20 tem sua faixa de medição entre \math{\left\lbracket -55, 120 \right\rbracket \celsius}, sendo a precisão, dentro dessa faixa, de \math{\pm 0.5}.
 		\stophead
 
 		\starthead{Potêncial de Oxirredução}
 			O potêncial de oxidação-redução da solução é uma medida representativa so equilibrio iônico desta. Esse sensor atua como um substituto ao sensor de pH.
-
-			\startplacefigure[title={Sensor de potêncial de oxirredução}, reference={fig:oxireduction_potential}]
-				\externalfigure[image/oxireduction_potential.png][height=400pt, width=\textwidth]
-			\stopplacefigure
 		\stophead
 
 		\starthead{Hidrogênio}
