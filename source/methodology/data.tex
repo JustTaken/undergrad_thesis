@@ -1,23 +1,26 @@
 \startsection[title={Coleta de Dados}]
-	A coleta de dados de temperatura, potêncial de oxirredução, concentração de hidrogênio, concentração de metano e concentração de dióxido de carbono são feitas {\emph online}, desta forma a sincronização dos dados é automaticamente manejada pelo sistema de sincronização do controlador.
+	A coleta das variáveis temperatura, potencial de oxirredução, concentração de hidrogênio, concentração de metano e concentração de dióxido de carbono é realizada {\emph on-line}. Dessa forma, a sincronização das medições é gerenciada automaticamente pelo controlador.
 
-	A temperatura tem seu {\emph set point} em \math{80 \celsius}, enquanto as outras variáveis não são controladas. Isso se da por conta de algumas restrições operacionais do sistema, impedindo a realização de agitação e manutenção do \chemical{pH}, fazendo com que uma das propostas do trabalho seja predizer as variáveis de qualidade e concentração do processo sem que ele acontece com agitação ou controle de \chemical{pH}.
+	A temperatura é controlada com {\emph set point} de \math{80 \celsius}, enquanto as demais variáveis são apenas monitoradas. Essa configuração decorre de limitações operacionais do sistema, que impedem a utilização de agitação mecânica e o controle do \chemical{pH}. Assim, uma das propostas deste trabalho é desenvolver um \getbuffer[sens] capaz de estimar variáveis de qualidade e de concentração em condições de operação sem agitação e sem controle de \chemical{pH}.
 \stopsection
 
 \startsection[title={Simulação}]
-	Juntamente com a coleta de dados reais, tem-se a coleta de dados simulados. Estes acontecem utilizando o modelo ADM1 com algumas introduções de aleatoriedades arbitrárias para aproximar o resultado ao de um sistema real e testar os limites da rede neural em capturar o comportamento de dados com ruído.
+	Além da coleta de dados experimentais, também são gerados dados por simulação. Para isso, utiliza-se o modelo ADM1 acrescido de ruído gaussiano aditivo com variância compatível com a instrumentação experimental, introduzidas de forma controlada para aproximar os resultados do comportamento observado em sistemas reais e avaliar a capacidade da rede neural em identificar padrões na presença de ruído.
 
-	O modelo ADM1 selecionado é a variante testada por \cite[authoryears][ref::rosen_0], com as duas aproximações por equações algebricas diferenciais do \chemical{pH} e do \chemical{H_2} citadas neste trabalho.
+	O modelo adotado corresponde à variante proposta por \cite[authoryears][ref::rosen_0], incluindo as aproximações por equações diferenciais algébricas para o cálculo do \chemical{pH} e da concentração de \chemical{H_2} descritas nesse trabalho.
 \stopsection
 
 \startsection[title={Arquitetura}]
-	Os dados coletados pelos sensores e armazenados no servidor são pré-tatados para seguir ao treinamento do modelo LSTM, esse pré-tratamento é em primeira instância a retirada de valores incosistentes e sem pares de variáveis completos (ao faltar um valor de temperatura para um tempo \math{t} em que existem correspondentes de ORP e as concentrações dos gases), assim como uma inspeção visual do comportamento da curva formada pelos valores obtidos. Em seguida esses dados são normalizados de forma que o algorítimo de treinamento não encontre problemas típicos de explosão de gradiente devido aos valores em uma escala não adequada para seu funcionamento. O treinamento do modelo a partir dos dados armazenados é feito com o algorítimo LSTM, para ambas os tipos de coletas de dados, a feita experimentalmente e a simulação. Após o treinamento o modelo resultante é testado em dados novos para mensurar sua eficácia de predição.
+	Os dados coletados pelos sensores e armazenados no servidor passam inicialmente por uma etapa de pré-processamento. Nessa etapa, são removidos valores inconsistentes e registros incompletos, como instantes em que alguma variável medida esteja ausente. Também é realizada uma inspeção visual das séries temporais para identificar possíveis anomalias.
 
-	\startplacefigure[title={Fluxograma da arquitetura de functionamento da planta operacional para produção, treinamento e futuro monitoramento de falhas}]
+	Em seguida, os dados são normalizados para adequá-los ao treinamento da rede neural e reduzir problemas numéricos, como instabilidades decorrentes de diferenças de escala entre as variáveis. O modelo LSTM é então treinado tanto com os dados experimentais quanto com os dados simulados. Após o treinamento, seu desempenho é avaliado utilizando conjuntos de dados não empregados durante o treinamento.
+
+	\startplacefigure[title={Fluxograma da arquitetura de funcionamento da planta para aquisição de dados, treinamento e monitoramento}]
 		\externalfigure[image/architecture.png][height=400pt]
 	\stopplacefigure
 
-	A possibilidade gerada pela existencia de um \getbuffer[sens] é monitorar o processo para detectar possiveis desvio da idealidade, ou seja, detecção de falhas em tempo real.
+	A principal aplicação de um \getbuffer[sens] consiste no monitoramento do processo em tempo real, permitindo detectar desvios das condições normais de operação e identificar possíveis falhas.
 
-	Com a evolução do sistema fermentativo, para um passivel de ser completamente manipulado, desde temperatura, pH até a taxa de alimentação semi-batelada, e a pré-configuração de um detector de falhas em tempo real, é possivel, ainda, a implementação de um sistema de controle robusto, e resistente a modificações rotineiras de atividade metabólica, ou de condições operacionais. Que controle a agitação da pá do misturador, o pH através de soluções ácidas ou básicas, resfriamento ou aquicimento pela jaqueta revestindo o fermentador, inserção de substrato em diversos momentos durante o processo fermentativo e concentração de \chemical{CO_{2}} na atmosfera.
+	À medida que o sistema fermentativo evoluir para uma plataforma totalmente automatizada, com controle de variáveis como temperatura, \chemical{pH} e alimentação em regime semi-batelada, a integração do \getbuffer[sens] com um sistema de detecção de falhas permitirá a implementação de estratégias de controle mais robustas. Esse sistema poderá atuar sobre a velocidade de agitação, a correção do \chemical{pH} por meio da adição de soluções ácidas ou básicas, o aquecimento ou resfriamento da jaqueta do fermentador, a alimentação de substrato durante o processo e a composição gasosa da atmosfera do reator, incluindo a concentração de \chemical{CO_{2}}.
 \stopsection
+

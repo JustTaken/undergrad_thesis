@@ -1,43 +1,32 @@
 \startsection[title={Sensores}]
-	A princípio, as variáveis medidas podem apresentar uma colinearidade relativamente alta, mas o método de analise para produção de \getbuffer[sens] é projetada para funcionar através da utilização de uma caixa preta (LSTM), portanto o projeto do sistema de medição tem o papel medir todas as variáveis ao alcançe dos sensores disponíveis. Todas as imagem dos sensores utilizados estão dispostas no Apêndice A.
+	A princípio, as variáveis medidas podem apresentar elevada colinearidade. Entretanto, o método de análise para a produção de \getbuffer[sens] baseia-se em um modelo de caixa-preta (LSTM), de modo que o sistema de medição é projetado para monitorar o maior número possível de variáveis acessíveis pelos sensores disponíveis. As imagens de todos os sensores utilizados são apresentadas no Apêndice A.
 
 	\startitemize
 		\starthead{Temperatura}
-			A maior acurácia de medição, dentre as disponíveis, é proporcionado pelo sensor de temperatura. Este opera com o protocolo {\emph one-wire}, ou seja, somente uma conexão é necessária para a comunicação com o controlador.
+			\indentitem A temperatura é a variável medida com maior precisão dentre as disponíveis. O sensor utilizado comunica-se com o controlador por meio do protocolo {\emph one-wire}, que requer apenas uma linha de dados.
 
-			O DS18B20 tem sua faixa de medição entre \math{\left\lbracket -55, 120 \right\rbracket \celsius}, sendo a precisão, dentro dessa faixa, de \math{\pm 0.5}.
+			O DS18B20 possui faixa de medição de \math{\left\lbracket -55, 120 \right\rbracket \celsius} e precisão de \math{\pm 0.5 \celsius} nessa faixa de operação.
 		\stophead
 
-		\starthead{Potêncial de Oxirredução}
-			O potêncial de oxidação-redução da solução é uma medida representativa so equilibrio iônico desta. Esse sensor atua como um substituto ao sensor de pH.
+		\starthead{Potencial de Oxirredução}
+			\indentitem O potencial de oxidação-redução (ORP) representa o estado de oxidação da solução e fornece informações sobre seu equilíbrio eletroquímico. Neste trabalho, essa variável é utilizada como uma medida complementar ao pH.
 		\stophead
 
 		\starthead{Hidrogênio}
-			O papel do sensor de hidrogênio é de permitir o treinamento do algorítimo LSTM, para a predição da produção de hidrogênio no processo fermentativo.
+			\indentitem O sensor de hidrogênio fornece a variável de interesse utilizada no treinamento do algoritmo LSTM, permitindo posteriormente a substituição do sensor físico por um sensor virtual.
 		\stophead
 
 		\starthead{Metano}
-			Outro sensor que serve como base para o treinamento do \getbuffer[sens] para a substituição do sensor físico, neste caso, de metano.
+			\indentitem Assim como o sensor de hidrogênio, o sensor de metano fornece dados para o treinamento do \getbuffer[sens], possibilitando a estimação da concentração desse gás sem a necessidade de medição direta.
 		\stophead
 
 		\starthead{Dióxido de Carbono}
-			O sensor de dióxido de carbono permite, assim como os outros sensores de moléculas, medir os produtos resultantes do processo fermentativo e, consequentemente, passar conhecimento ao algorítimo de predição sobre o metabolismo dos microorganismos e as rotas utilizadas por eles durante o processo.
+			\indentitem O sensor de dióxido de carbono permite monitorar um dos principais produtos do processo fermentativo. Em conjunto com os demais sensores de gases, seus dados fornecem informações sobre o metabolismo dos microrganismos e sobre as rotas metabólicas predominantes durante a fermentação.
 
-			Quanto melhor (no que tange representitividade das atividades metabólicas) e mais abrangente (em questão da quantidade de variáveis medidas) for a captura de dados sobre o produtos do metabolismo de áçucar dos organismos presentes, mais completo é o resultado dos \plural{\getbuffer[sens]}.
+			Quanto maior a representatividade das variáveis monitoradas e mais abrangente for a instrumentação do processo, maior tende a ser a capacidade dos \plural{\getbuffer[sens]} de inferir corretamente as variáveis não medidas.
 		\stophead
-
-		%\starthead{Ácidos Graxos Voláteis}
-		%	Os ácidos gráxos, são importantes para a produção de hidroênio, por conta da sua utilizasão em eletrólise microbiana, permitindo a existência de um processo secundário de evolução de hidrogênio. Portanto a sua determinação é importante para trabalhos futuros de otimização da produção de hidrogênio.
-		%\stophead
-
-		%\starthead{Substrato}
-		%	O substrato é formado por uma composição complexa e existem algumas dificuldades em medir sua concentração {\emph inline}, portanto, a presença do substrato impoe a necessidade de uma amostragem recorrente, e medida {\emph offline}.
-		%\stophead
-
-		%\starthead{Biomassa}
-		%	Assim como o substrato, a biomassa tem suas particularidades, composição complexa e tem de ser medida com cromatografia {\emph offline}.
-		%\stophead
 	\stopitemize
 
-	Todos os dados temporais coletados {\emph inline} são transportados para o servidor e armazenados em conjunto para cada um dos momentos de coleta. Estes dados são usados na etapa seguinte de tratamento de dados e treinamento do modelo.
+	Todos os dados temporais coletados {\emph in-line} são enviados ao servidor e armazenados de forma sincronizada para cada instante de aquisição. Posteriormente, esses dados são utilizados nas etapas de pré-processamento e treinamento do modelo.
 \stopsection
+

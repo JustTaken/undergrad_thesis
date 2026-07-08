@@ -10,7 +10,7 @@
 
 	\vfill
 
-	\titlestyle{\getvariable{metadata}{title}}
+	\titlestyle{\Word{\getvariable{metadata}{title}}}
 
 	\vfill
 
@@ -19,7 +19,25 @@
 
 \page[yes]
 
-\setuphead[subject][style=\tfd, align=middle]
+\startalignment[middle]
+	\subtitlestyle{\getvariable{metadata}{author}}
+
+	\vfill
+
+	\titlestyle{\Word{\getvariable{metadata}{title}}}
+\stopalignment
+
+	\blank[2*big]
+
+\startnarrower[15*left]
+	\noindent Trabalho de Conclusão de Curso Parcial apresentada ao curso de Graduação Bacharelado em Engenharia Química da Faculdade de Engenharia da Universidade Federal de Mato Grosso como requisito parcial para a obtenção do título de bacharel em Engenheiro Químico.
+
+	\noindent Orientador: Prof. Dr. Júlio Cesar de Carvalho Miranda
+\stopnarrower
+
+\vfill
+
+\page[yes]
 
 \startsubject[title={Lista de Ilustrações}]
 	\placelist[figure][criterium=all, alternative=c]

@@ -5,11 +5,13 @@
 
 \setvariables[metadata][
 	author={João Pedro Câmara Borges},
-	title={Desenvolvimento de soft sensors baseados em redes neurais para monitoramento de processos fermentativos},
-	date={2026},
+	title={desenvolvimento de soft sensors baseados em redes neurais para monitoramento de processos fermentativos},
+	date={CUIABÁ - MT \\ 2026},
 ]
 
 \setupinterlinespace[line=0.75cm]
+
+\setuphead[subject][style=\tfd, align=middle]
 
 \setupitemize[1][symbol=blacksquare]
 \setupitemize[2][symbol=circle, width=1.5ex]
@@ -56,13 +58,13 @@
 \stopbuffer
 
 \define[1]\plural{#1s}
+\define\indentitem{\par \noindent \hskip\parindent}
 
 \def\emdash{
 	---
 }
 
 \starttext
-	Hello world
 	\startfrontmatter
 		\input{source/cover.tex}
 	\stopfrontmatter
@@ -73,10 +75,7 @@
 	\stopbodymatter
 
 	\startbackmatter
-		\startchapter[title={Referências}]
-			\placebtxrendering[ref][method=global]
-		\stopchapter
-
+		\input{source/reference.tex}
 		\input{source/appendix.tex}
 	\stopbackmatter
 \stoptext

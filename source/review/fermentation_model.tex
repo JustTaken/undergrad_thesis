@@ -1,9 +1,9 @@
 \startsection[title={Modelo fermentativo}]
-	A modelagem do processo de fermentação é essencial para seu estudo, porque toda otimização do processo é tão bem feita quanto o modelo físico-químico permite \cite[authoryear][ref::ureta_0]. Seguindo as diretrizes do modelo paramétrico formulado, é possivel estimar os valores desses parâmetros a partir do processamento de dados de um conjunto de experimentos cuidadosamentes planejados e executados. Validação desses resultados é uma ação rotineira no exercício de desenvolvimento de modelos devidamente equacionados \cite[authoryear][ref::ureta_0].
+	A modelagem do processo de fermentação é essencial para seu estudo, pois a otimização do processo depende diretamente da qualidade do modelo físico-químico empregado \cite[authoryear][ref::ureta_0]. A partir da estrutura paramétrica formulada, é possível estimar os valores dos parâmetros por meio do processamento de dados obtidos em experimentos cuidadosamente planejados e executados. A validação desses parâmetros constitui uma etapa rotineira no desenvolvimento de modelos matemáticos devidamente formulados \cite[authoryear][ref::ureta_0].
 
-	O primeiro passo para o desenvolvimento de um modelo fermentativo é a analise qualitativa da estrutura do sistema fermentativo, e entendimento das rotas metabólicas. Em seguida, deve-se formular um modelo matemático que segue as definições a priori utilizadas na etapa anterior. Por último é necessário a identificação dos valores numéricos que substituirão os parâmetros e constantes do modelo, baseados em dados experimentais reais de um processo.
+	O primeiro passo para o desenvolvimento de um modelo fermentativo consiste na análise qualitativa da estrutura do sistema e na compreensão de suas rotas metabólicas. Em seguida, formula-se um modelo matemático com base nas hipóteses estabelecidas na etapa anterior. Por fim, identificam-se os valores numéricos dos parâmetros e das constantes do modelo a partir de dados experimentais do processo.
 
-	Criar um modelo matemático envolve a etapa de determinação da estequiometria de reação e a etapa de formulação da taxa de reação. A etapa estequiométrica tem suas particularidades e pode englobar diversos mecanismos consideravelmente complexos, consequentemente, a taxa de reação \math{\rho}, que tem uma relação causal com a estequiometria, geralmente acompanha sua complexidade, acarretando em um uma cinética extensa. Mas existem modelos que tratam de generalizar comportamentos de determinadas reações, como mostra o \in{Sistema de Equações}[eq:rates], onde a mais simples tem a forma da reação elementar de ordem \math{1} em relação ao substrato \math{S}.
+	A construção de um modelo matemático envolve a determinação da estequiometria das reações e a formulação das respectivas taxas de reação. A etapa estequiométrica pode abranger mecanismos complexos e, consequentemente, a taxa de reação \math{\rho}, intimamente relacionada à estequiometria, tende a apresentar elevada complexidade. Entretanto, existem modelos cinéticos que generalizam o comportamento de determinadas reações, conforme ilustrado no \in{Sistema de Equações}[eq:rates]. A forma mais simples corresponde a uma reação elementar de primeira ordem em relação ao substrato \math{S}.
 
 	\startplaceformula[reference={eq:rates}]
 		\startformula
@@ -14,9 +14,9 @@
 		\stopformula
 	\stopplaceformula
 
-	Em que \math{K} é a constante limitante da taxa de reação, \math{k} a constante de taxa de reação, \math{I} representa a inibição, e \math{S} a concentração de algum substrato ou biomassa. Ambas \math{K} e \math{k} carregam a dependência da temperatura no seus valores, podendo ser definidas diretamente como uma função da temperatura, ou fixadas com valores obtidos experimentalmente \cite[authoryear][ref::rosen_0], dado que a variação destas pode não ser relevante na faixa de temperatura da simulação.
+	Em que \math{K} é a constante de saturação da taxa de reação, \math{k} é a constante cinética, \math{I} representa um fator de inibição e \math{S} corresponde à concentração de um substrato ou biomassa. As constantes \math{K} e \math{k} dependem da temperatura e podem ser definidas como funções desta ou consideradas constantes quando sua variação é desprezível na faixa de temperatura da simulação \cite[authoryear][ref::rosen_0].
 
-	{\emph Anaerobic Digestion Model no 1} (ADM1) é uma das alternativas para modelos fermentativos praticos de aplicação industrial, que envolve diversos componentes, tipos de microorganismos, reações e inibições com base em equações diferenciais \cite[authoryear][ref::batstone_0]. Neste modelo é possivel representar as diferentes etapas da vida de um microorganismo atraves da alteração das constantes de reação, permitindo modelar, fases de crestimento, morte e atraso, para isso é necessário introduzir equações diferenciais que respeitam as variações de biomassa como da \in{Equação}[eq:biomass_differential].
+	O {\emph Anaerobic Digestion Model No. 1} (ADM1) é um dos modelos fermentativos mais utilizados em aplicações industriais. Baseado em equações diferenciais, ele contempla diversos componentes, grupos microbianos, reações e mecanismos de inibição \cite[authoryear][ref::batstone_0]. O modelo representa as diferentes fases do crescimento microbiano por meio da variação das constantes cinéticas, permitindo descrever crescimento, morte e fase de adaptação. Para isso, empregam-se equações diferenciais que representam a evolução temporal da biomassa, como mostrado na \in{Equação}[eq:biomass_differential].
 
 	\startplaceformula[reference={eq:biomass_differential}]
 		\startformula
@@ -24,15 +24,15 @@
 		\stopformula
 	\stopplaceformula
 
-	Em que \math{X} é a concentração de biomassa ativa, e \math{k_{a1}, k_{a2}} são as constantes de crescimento e desativação respectivamente.
+	Em que \math{X_{a}} representa a concentração de biomassa ativa, enquanto \math{k_{a1}} e \math{k_{a2}} são as constantes de crescimento e desativação, respectivamente.
 
-	Os mecanismos de reação modelados no ADM1 começam com a desintegração de um particulado complexo em carboidrato, proteina, gordura, inerte soluvel e inerte insoluvel. A partir deste ponto, acontece a hidrolise desses compostos em monosacarídeos, amino ácidos e ácidos graxos, seguindo para a formação de compostos como \chemical{valerato}, \chemical{butirato}, \chemical{propianato}, \chemical{acetato}, \chemical{hidrogênio}, \chemical{dióxido de carbono}, \chemical{metano}, entre outros. Estas etapas, mostradas na \in{Figura}[fig:desintegration_path], o tornam um modelo genérico capaz de representar uma cultura mista de biomassa acídogênica, acetogênica e metanogênica, com boa aproximação para sistemas industriais.
+	No ADM1, o processo inicia-se com a desintegração do material particulado complexo em carboidratos, proteínas, lipídios, material inerte solúvel e material inerte insolúvel. Em seguida, esses compostos são hidrolisados em monossacarídeos, aminoácidos e ácidos graxos, que posteriormente são convertidos em produtos como \chemical{valerato}, \chemical{butirato}, \chemical{propionato}, \chemical{acetato}, \chemical{hidrogênio}, \chemical{dióxido de carbono} e \chemical{metano}. Essas etapas, apresentadas na \in{Figura}[fig:desintegration_path], tornam o ADM1 um modelo genérico capaz de representar culturas mistas de biomassa acidogênica, acetogênica e metanogênica, com boa aproximação para sistemas industriais.
 
-	\startplacefigure[title={Caminho de desintegração e hidrolise do ADM1}, reference={fig:desintegration_path}]
+	\startplacefigure[title={Caminho de desintegração e hidrólise do ADM1}, reference={fig:desintegration_path}]
 		\externalfigure[image/desintegration_path.png][height=200pt]
 	\stopplacefigure
 
-	A forma basica das equações diferenciais para compostos solúveis, no modelo, são dadas pela \in{Equação}[eq:soluble_differential]. Isto é, a \in{Equação}[eq:soluble_differential] engloba a fora das equações diferenciais de materiais como varelato, butirato, nitrogênio e ácidos graxos, alem dos produtos usuais (hidrogênio, methano, dióxido de carbono) e os ions da solução.
+	A forma geral das equações diferenciais para compostos solúveis é apresentada na \in{Equação}[eq:soluble_differential]. Essa equação descreve a dinâmica de espécies como valerato, butirato, nitrogênio, ácidos graxos, além de produtos como \chemical{hidrogênio}, \chemical{metano}, \chemical{dióxido de carbono} e os íons presentes na solução.
 
 	\startplaceformula[reference={eq:soluble_differential}]
 		\startformula
@@ -40,9 +40,9 @@
 		\stopformula
 	\stopplaceformula
 
-	Em que vazão, volume, concentração de entrada do solúvel, concentração de saida do solúvel, taxa cinética e coeficiente cinético são representados por \math{Q}, \math{V}, \math{S_{i}}, \math{S_{o}}, \math{\rho_{j}} e \math{\nu_{ji}} respectivamente.
+	Em que \math{Q}, \math{V}, \math{S_{i}}, \math{S_{o}}, \math{\rho_{j}} e \math{\nu_{ji}} representam, respectivamente, a vazão, o volume do reator, as concentrações de entrada e saída da espécie solúvel, a taxa cinética e o coeficiente estequiométrico.
 
-	Outro equacionamento importante do ADM1 é o equilíbrio ácido-base, necessário para o calculo do pH, da possivel inibição de taxas de reações e do crescimento da biomassa. Este equacionamento é dado pela utilização da concentração dos ions na solução, e das constantes de equilíbrio previamente definidas, culminando em uma EDO, ou em uma equação algebrica diferencial de solução iterativa. A solução do pH para dado momento da simulação incorre na possibilidade de resolver equações que expressão a inibição do pH através de \math{I}, como mostrado em \math{\rho_{4}} na \in{Equação}[eq:rates]. A expansão de \math{I} é da forma da \in{Equação}[eq:inibition_ph] \cite[authoryear][ref::batstone_0].
+	Outro aspecto fundamental do ADM1 é a modelagem do equilíbrio ácido-base, necessária para o cálculo do pH, da inibição das reações e do crescimento microbiano. Esse equacionamento utiliza as concentrações dos íons em solução e as constantes de equilíbrio previamente definidas, resultando em um sistema de equações diferenciais ordinárias ou diferenciais algébricas resolvido de forma iterativa. O valor do pH obtido em cada instante da simulação permite calcular fatores de inibição, como o termo \math{I} presente em \math{\rho_{4}} da \in{Equação}[eq:rates]. Uma das expressões utilizadas para esse fator é apresentada na \in{Equação}[eq:inibition_ph] \cite[authoryear][ref::batstone_0].
 
 	\startplaceformula[reference={eq:inibition_ph}]
 		\startformula
@@ -50,5 +50,6 @@
 		\stopformula
 	\stopplaceformula
 
-	Em que \math{pH_{UL}} e \math{pH_{LL}} são os pHs limitantes superiores e inferiores da faixa de operação do microorganismo. Existem ainda outras formas de se calcular a inibição de pH \cite[authoryear][ref::rosen_0], o processo experimental será o responsável por resolver pendências como a distoância entre a inibição prevista e a real, portanto vale notar que a especificidade da forma expandida da inibição é particular a sistemas fermentativos práticos individuais.
+	Em que \math{pH_{UL}} e \math{pH_{LL}} correspondem aos limites superior e inferior da faixa de operação do microrganismo. Outras formulações para a inibição por pH também são encontradas na literatura \cite[authoryear][ref::rosen_0]. A escolha da expressão mais adequada depende da validação experimental, uma vez que cada sistema fermentativo apresenta características próprias que influenciam a resposta à variação do pH.
 \stopsection
+
