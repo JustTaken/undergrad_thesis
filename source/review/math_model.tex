@@ -60,17 +60,29 @@
 
 			Na \in{Equação}[eq:pls_matrices] \math{X} é a matriz preditiva e \math{Y} a matriz resposta, onde \math{P_{h} = \left\lbracket \vec{p_{1}} \dots \vec{p_{h}} \right\rbracket \in \reals^{p \times h}} é a matriz {\emph \math{X}-loading}. \math{C_{h} = \left\lbracket \vec{c_{1}} \dots \vec{c_{h}} \right\rbracket \in \reals^{r \times h}} a matriz peso para os vetores da matriz resposta. \math{E_{h}} e \math{F_{h}} são matrizes residuais, responsáveis por aproximar os erros.
 
-			A solução acontece de maneira iterativa, primeiramente escolhe-se o valor inicial \math{\vec{u_{1}}} a partir da matriz resposta (pode-se pensar em \math{\vec{y_{1}}}). Não é necessário que o primeiro componente seja a primeira coluna da matriz resposta \math{R}, ou que seja um membro de \math{R}, uma alternativa seria utilizar uma combinação linear de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} chamada {\emph Principal Component Analisys}. A seguir, obtém-se o vetor peso \math{\vec{a_{1}} = \left\lparen a_{11} \dots a_{p1} \right\rparen} com a regressão de \math{\left\lbrace \vec{x_{1}} \dots \vec{x_{p}} \right\rbrace} sobre \math{\vec{u_{1}}}. Depois de normalizar \math{\vec{a_{1}}}, aproxima-se valores \math{\vec{t_{1}} = \left\lparen t_{11}, \dots, t_{n1} \right\rparen} pelos coeficientes de regressão das linhas da matriz \math{X} sobre \math{\vec{a_{1}}}, com finalidade de criar o vetor peso \math{\vec{c_{1}} = \left\lparen c_{11}, \dots, c_{r1} \right\rparen} por regressão de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} sobre \math{\vec{t_{1}}}. Finalmente, a iteração termina com a aproximação de \math{\vec{u_{1}}}, utilizando regressão das linhas da matriz \math{Y} sobre \math{\vec{c_{1}}}. Na \in{Figura}[fig:pls_algorithm] vê-se o algorítimo na prática assim como apresentado por \cite[authoryears][ref::vinzi_0].
+			A solução acontece de maneira iterativa, primeiramente escolhe-se o valor inicial \math{\vec{u_{1}}} a partir da matriz resposta (pode-se pensar em \math{\vec{y_{1}}}). Não é necessário que o primeiro componente seja a primeira coluna da matriz resposta \math{R}, ou que seja um membro de \math{R}, uma alternativa seria utilizar uma combinação linear de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} chamada {\emph Principal Component Analisys}. A seguir, obtém-se o vetor peso \math{\vec{a_{1}} = \left\lparen a_{11} \dots a_{p1} \right\rparen} com a regressão de \math{\left\lbrace \vec{x_{1}} \dots \vec{x_{p}} \right\rbrace} sobre \math{\vec{u_{1}}}. Depois de normalizar \math{\vec{a_{1}}}, aproxima-se valores \math{\vec{t_{1}} = \left\lparen t_{11}, \dots, t_{n1} \right\rparen} pelos coeficientes de regressão das linhas da matriz \math{X} sobre \math{\vec{a_{1}}}, com finalidade de criar o vetor peso \math{\vec{c_{1}} = \left\lparen c_{11}, \dots, c_{r1} \right\rparen} por regressão de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} sobre \math{\vec{t_{1}}}. Finalmente, a iteração termina com a aproximação de \math{\vec{u_{1}}}, utilizando regressão das linhas da matriz \math{Y} sobre \math{\vec{c_{1}}}. Na \in{Tabela}[fig:pls_algorithm] vê-se o algorítimo na prática assim como apresentado por \cite[authoryears][ref::vinzi_0].
 
-			\startplacefigure[title={Algorítimo PLS-R \cite[authoryear][ref::vinzi_0]}, reference={fig:pls_algorithm}]
-				\externalfigure[image/pls_algorithm.png][height=400pt]
-			\stopplacefigure
+			\startplacetable[title={Algorítimo PLS-R \cite[authoryear][ref::vinzi_0]}, reference={fig:pls_algorithm}]
+				\starttabulate[|l|]
+					\NC \math{E_{0} = X} \NR
+					\NC \math{F_{0} = Y} \NR
+					\NC \math{u_{1} = PCA(Y)} \NR
+					\NC while \math{\unit{erro} > \unit{tolerância}} \NR
+					\NC \hskip{2em}\math{a_{1} = \frac{E_{0} u_{1}}{u_{1} u_{1}^{T}}} \NR
+					\NC \hskip{2em}\math{t_{1} = \frac{E_{0} u_{1}}{a_{1} a_{1}^{T}}} \NR
+					\NC \hskip{2em}\math{c_{1} = \frac{F_{0} t_{1}}{t_{1} t_{1}^{T}}} \NR
+					\NC \hskip{2em}\math{u_{1} = \frac{F_{0} c_{1}}{c_{1} c_{1}^{T}}} \NR
+					\NC \math{p_{1} = \frac{E_{0} t_{1}}{t_{1} t_{1}^{T}}} \NR
+					\NC \math{E_{1} = E_{0} - t_{1} p_{1}^{T}} \NR
+					\NC \math{F_{1} = F_{0} - t_{1} c_{1}^{T}} \NR
+				\stoptabulate
+			\stopplacetable
 
 			Ao final desse processo têm-se os membros \math{\vec{t_{1}}} e \math{\vec{c_{1}}} das matrizes \math{T_{h}} e \math{C_{h}} respectivamente. Para calcular \math{\vec{p_{1}}} de \math{P_{h}} basta fazer a regressão de \math{\vec{x_{1}}} em \math{\vec{t_{1}}}. Assim, a primeira coluna de cada matriz da \in{Equação}[eq:pls_matrices] foram obtidas, o algorítimo para as próximas colunas é analogo.
 		\stophead
 
 		\starthead{Multi-layer perceptron}
-			O propósito do método {\emph multi-layer perceptron} (MLP) é construir no mínimo \math{3} camadas de neurônios, a primeira sendo a camada de entrada com a mesma quantidade \math{n} de neurônios que coordenadas no vetor de entrada \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen}. A segunda camada é de dimensão arbitraria \math{m}, possuindo para cada um desses neurônios intermediários, \math{n} pesos \math{w_{ji}}, correspondentes as conexões entre a todos os neurônios da camada anterior, com cada neurônio dessa segunda camada. Portanto a camada tem \math{m \times n} pesos \math{w_{ji}}, com valores de seus neurônios são obtidos pela \in{Equação}[eq:multilayer_perceptron] sob a aplicação de ativação arbitraria \math{\sigma}, presente para um ajuste fino da imagem da camada. A terceira camada é a saída, e compartilha a mesma dimensão \math{\gamma} que o vetor \math{\vec{y}}. Então, o modelo MLP pode ser considerado como um mapa \math{f} de \math{X} para \math{Y}, com a vantagem de se ajustar a praticamente qualquer funcionalidade interna do sistema, porque o modelo pode expandir-se em quantidade de camadas intermediária e crescer em complexidade e acuracia \cite[authoryear][ref::funahashi].
+			O propósito do método {\emph multi-layer perceptron} (MLP) é construir no mínimo três camadas de neurônios, a primeira sendo a camada de entrada com a mesma quantidade \math{n} de neurônios que coordenadas no vetor de entrada \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen}. A segunda camada é de dimensão arbitraria \math{m}, possuindo para cada um desses neurônios intermediários, \math{n} pesos \math{w_{ji}}, correspondentes as conexões entre a todos os neurônios da camada anterior, com cada neurônio dessa segunda camada. Portanto a camada tem \math{m \times n} pesos \math{w_{ji}}, com valores de seus neurônios são obtidos pela \in{Equação}[eq:multilayer_perceptron] sob a aplicação de ativação arbitraria \math{\sigma}, presente para um ajuste fino da imagem da camada. A terceira camada é a saída, e compartilha a mesma dimensão \math{\gamma} que o vetor \math{\vec{y}}. Então, o modelo MLP pode ser considerado como um mapa \math{f} de \math{X} para \math{Y}, com a vantagem de se ajustar a praticamente qualquer funcionalidade interna do sistema, porque o modelo pode expandir-se em quantidade de camadas intermediária e crescer em complexidade e acurácia \cite[authoryear][ref::funahashi_0].
 
 			\startplaceformula[reference={eq:multilayer_perceptron}]
 				\startformula
@@ -144,7 +156,7 @@
 				\stopformula
 			\stopplaceformula
 
-			\math{C_{t}} e \math{H_{t}} utilizam o operador \math{\odot} para multiplicar membro a membro as matrizes de interesse no \in{Sistema}[eq:lstm_hidden]. É possivel assumir que \math{H_{t} \in \left\lbracket -1, 1 \right\rbracket} porque \math{O_{t} \in \left\lbracket 0, 1 \right\rbracket} e \math{\tanh \left\lparen C_{t} \right\rparen \in \left\lbracket -1, 1 \right\rbracket}.
+			\math{C_{t}} e \math{H_{t}} utilizam o operador \math{\odot} para multiplicar membro a membro as matrizes de interesse no \in{Sistema}[eq:lstm_hidden]. É possivel assumir que \math{H_{t} \in \left\lbracket -1, 1 \right\rbracket} porque \math{O_{t} \in \left\lbracket 0, 1 \right\rbracket} e \math{\tanh \left\lparen C_{t} \right\rparen \in \left\lbracket -1, 1 \right\rbracket}. Isto adiciona um camada de segurança sobre o problema de explosão de gradiente, que é fonte de erros sistemáticos de algorítimos recorrentes que não possuem essa normalização.
 		\stophead
 	\stopitemize
 \stopsection

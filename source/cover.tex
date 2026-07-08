@@ -18,3 +18,21 @@
 \stopalignment
 
 \page[yes]
+
+\setuphead[subject][style=\tfd, align=middle]
+
+\startsubject[title={Lista de Ilustrações}]
+	\placelist[figure][criterium=all, alternative=c]
+\stopsubject
+
+\page[yes]
+
+\startsubject[title={Lista de Tabelas}]
+	\placelist[table][criterium=all, alternative=c]
+\stopsubject
+
+\page[yes]
+
+\startsubject[title={Sumário}]
+	\placecontent[criterium=all, alternative=c]
+\stopsubject
