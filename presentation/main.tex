@@ -1,0 +1,33 @@
+\environment[header]
+\environment[math]
+
+\setuppapersize[S6]
+\setuplayout[top=1em, bottom=1em, width=middle, backspace=1em, cutspace=1em, topspace=0pt, header=\lineheight, footer=\lineheight, height=middle]
+
+\mainlanguage[pt-br]
+
+\setvariables[metadata][
+	author={João Pedro Câmara Borges},
+	title={desenvolvimento de soft sensors baseados em redes neurais para monitoramento de processos fermentativos},
+	date={CUIABÁ - MT \\ 2026},
+]
+
+\usebtxdataset[source/reference.bib]
+\setupbtxrendering[default][numbering=no]
+\setuphead[chapter][page=yes]
+
+% \showframe
+
+\starttext
+	\startfrontmatter
+		\input{presentation/cover.tex}
+	\stopfrontmatter
+
+	\startbodymatter
+		\input{presentation/body.tex}
+	\stopbodymatter
+
+	\startbackmatter
+		\input{presentation/back.tex}
+	\stopbackmatter
+\stoptext

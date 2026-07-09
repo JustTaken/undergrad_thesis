@@ -1,0 +1,30 @@
+\startchapter[title={Soft Sensor}]
+	Definido a partir do inglês {\emph software sensor}. Tem o papel de substituir um sensor físico ou atuar como um complemento para este.
+
+	\startplacefigure[title={Esquemático de um fermentador com seu aparato de medição e controle}, reference={fig:bioreactor_control}]
+		\externalfigure[image/bioreactor_control.png][height=200pt]
+	\stopplacefigure
+
+	Um bioreator com variáveis medidas como o da \in{Figura}[fig:bioreactor_control] pode ter sua montagem física simplificada, barateada, e estendida.
+
+	Pode ser utilizado para predizer falhas sistêmicas, {\emph fault detection}.
+\stopchapter
+
+\startchapter[title={Séries Temporais}]
+	Séries temporais ou {\emph time series} capturam o comportamento dinâmico do sistema. Contrariamente métodos que levam em consideração somente o estado inicial, ou atual. A \in{Equação}[eq:time_series_inequality] exemplifica a ideia de um sistema variante no tempo.
+
+	\startplaceformula[reference={eq:time_series_inequality}]
+		\startformula
+			f(x_{1}, x_{2}, \cdots, x_{n}, t_{0}) \neq \f(x_{1}, x_{2}, \cdots, x_{n}, t_{1})
+		\stopformula
+	\stopplaceformula
+
+	Um sistema fermentativo é mais do que isso, ele depende dos estados anteriores também. Os físicos chamam esse tipo de sistema não markoviano.
+
+	\startplacefigure[title={Exemplo de comportamento de uma variável em uma série temporal}, reference={fig:time_series_graph}]
+		\externalfigure[image/time_series_graph.png][height=200pt]
+	\stopplacefigure
+\stopchapter
+
+\startchapter[title={Fermentação}]
+\stopchapter

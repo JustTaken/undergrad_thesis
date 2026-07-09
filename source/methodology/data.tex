@@ -7,15 +7,15 @@
 \startsection[title={Simulação}]
 	Além da coleta de dados experimentais, também são gerados dados por simulação. Para isso, utiliza-se o modelo ADM1 acrescido de ruído gaussiano aditivo com variância compatível com a instrumentação experimental, introduzidas de forma controlada para aproximar os resultados do comportamento observado em sistemas reais e avaliar a capacidade da rede neural em identificar padrões na presença de ruído.
 
-	O modelo adotado corresponde à variante proposta por \cite[authoryears][ref::rosen_0], incluindo as aproximações por equações diferenciais algébricas para o cálculo do \chemical{pH} e da concentração de \chemical{H_2} descritas nesse trabalho.
+	O modelo adotado corresponde à variante proposta por \cite[authoryears][ref::rosen_0], incluindo as aproximações por equações diferenciais algébricas para o cálculo do \chemical{pH} e da concentração de \chemical{H_2} descritas neste trabalho.
 \stopsection
 
 \startsection[title={Arquitetura}]
 	Os dados coletados pelos sensores e armazenados no servidor passam inicialmente por uma etapa de pré-processamento. Nessa etapa, são removidos valores inconsistentes e registros incompletos, como instantes em que alguma variável medida esteja ausente. Também é realizada uma inspeção visual das séries temporais para identificar possíveis anomalias.
 
-	Em seguida, os dados são normalizados para adequá-los ao treinamento da rede neural e reduzir problemas numéricos, como instabilidades decorrentes de diferenças de escala entre as variáveis. O modelo LSTM é então treinado tanto com os dados experimentais quanto com os dados simulados. Após o treinamento, seu desempenho é avaliado utilizando conjuntos de dados não empregados durante o treinamento.
+	Em seguida, os dados são normalizados para adequá-los ao treinamento da rede neural e reduzir problemas numéricos, como instabilidades decorrentes de diferenças de escala entre as variáveis. O modelo LSTM é então treinado tanto com os dados experimentais quanto com os dados simulados. Após o treinamento, seu desempenho é avaliado utilizando conjuntos de dados não empregados durante o treinamento. A \in{Figura}[fig:archtecture] mostra essa sequência de trabalho.
 
-	\startplacefigure[title={Fluxograma da arquitetura de funcionamento da planta para aquisição de dados, treinamento e monitoramento}]
+	\startplacefigure[title={Fluxograma da arquitetura de funcionamento da planta para aquisição de dados, treinamento e monitoramento}, reference={fig:archtecture}]
 		\externalfigure[image/architecture.png][height=400pt]
 	\stopplacefigure
 
