@@ -27,4 +27,211 @@
 \stopchapter
 
 \startchapter[title={Fermentação}]
+	Fermentação é um processo bioquímico em que microrganismos convertem substâncias orgânicas, fontes de carbono em metabólitos, produzindo ATP no processo.
+
+	\noindent Os compostos principais sendo formados são \cite[authoryear][muller_0]:
+	\startitemize
+		\starthead{Etanol} \stophead
+		\starthead{Ácido Lático} \stophead
+		\starthead{Ácido Acétido} \stophead
+		\starthead{Ácido Butírico} \stophead
+		\starthead{Ácido Propanoico} \stophead
+		\starthead{Hidrogênio} \stophead
+		\starthead{Dióxido de Carbono} \stophead
+		\starthead{Metano} \stophead
+	\stopitemize
+\stopchapter
+
+\startchapter[title={Fermentação de Hidrogênio}]
+	Tambem chamada de fermentação escura. A atividade metabólica de microrganismos, consumindo fontes de carbono, principalmente glicose, e formam hidrogênio. Utilizada no reaproveitamento de resíduos da indústria alimentícia, ou, {\emph food waste}.
+
+	A \in{Equação}[eq:hidrogen_max_yield] mostra o maximo teórico de conversão de glicose em \chemical{H_{2}} \cite[authoryear][ntaikou_0].
+
+	\startplaceformula[reference={eq:hidrogen_max_yield}]
+		\startformula
+			\startchemicalformula
+				\chemical{C_{6}H_{12}O_{6}} \chemical{PLUS} \chemical{{4}H_{2}O}
+				\chemical{GIVES}
+				\chemical{{2}CH_{3}COO^{-}} \chemical{PLUS} \chemical{{2}HCO_{3}^{-}} \chemical{PLUS} \chemical{4H^{+}} \chemical{PLUS} \chemical{{4}H_{2}}
+			\stopchemicalformula
+		\stopformula
+	\stopplaceformula
+
+	\noindent O que influencia a produção é majoritariamente \cite[authoryear][ntaikou_0]:
+	\startitemize
+		\starthead{Temperatura} \stophead
+		\starthead{pH} \stophead
+		\starthead{Pressão Parcial de \chemical{H_{2}}} \stophead
+		\starthead{Composição da Cultura} \stophead
+		\starthead{Tempo} \stophead
+	\stopitemize
+
+	O tempo pode influênciar devido a produção de metano a partir de hidrogênio na etapa de metanogenese \cite[authoryear][ntaikou_0]. Esta etapa acontece em estagios avançados da fermentação.
+
+	\startplaceformula[reference={eq:methanogenese}]
+		\startformula
+			\startchemicalformula
+				\chemical{CO_{2}} \chemical{PLUS} \chemical{{4}H_{2}}
+				\chemical{GIVES}
+				\chemical{CH_{4}} \chemical{PLUS} \chemical{{2}H_{2}O}
+			\stopchemicalformula
+		\stopformula
+	\stopplaceformula
+\stopchapter
+
+\startchapter[title={Sistema Fermentativo}]
+	O sistema atual já permite a fermentação de açúcar demerara por lodo de gelatina. O esquema da montagem está na \in{Figura}[fig:fermentator_system].
+
+	\startplacefigure[title={Esquemático da montagem do sistema fermentativo}, reference={fig:fermentator_system}]
+		\externalfigure[image/fermentator][width=200pt]
+	\stopplacefigure
+
+	O \chemical{N_{2}} é responsável pela atmosfera inerte. O balão volumétrico de três vias é aquecido em banho maria em torno de um setpoint (\math{80, 100, 120 \celsius}).
+
+	No sistema atual é possivel observar volume produzido de gases.
+\stopchapter
+
+\startchapter[title={Monitoramento}]
+	O monitoramento {\emph online} da variação temporal das variáveis preditivas deve ser realizado com a presença de sensores físicos dentro do sistema.
+
+	\startitemize
+		\starthead{Temperatura} \stophead
+		\starthead{ORP} \stophead
+		\starthead{Metano} \stophead
+		\starthead{Dióxido de Carbono} \stophead
+	\stopitemize
+
+	Assim como o monitoramento do hidrogênio. O sistema tem de ser adaptado ou estendido para a acomodação física dos sensores.
+\stopchapter
+
+\startchapter[title={Sensores}]
+	\startplacefigure[title={Sensores físicos disponíveis}]
+		\startcombination[nx=2, ny=3]
+			{\externalfigure[image/sensor_temperature.png][height=80pt]}{Temperatura}
+			{\externalfigure[image/sensor_orp.png][height=80pt]}{ORP}
+			{\externalfigure[image/sensor_methane.png][height=80pt]}{Metano}
+			{\externalfigure[image/sensor_carbon_dioxide.png][height=80pt]}{Dióxido de Carbono}
+			{\externalfigure[image/sensor_hydrogen.png][height=80pt]}{Hidrogênio}
+		\stopcombination
+	\stopplacefigure
+\stopchapter
+
+\startchapter[title={Soft Sensors na Fermentação de Hidrogênio}]
+	Tem o papel de fazer uma inferência nos valores de produção de hidrogênio se baseando nas variáveis medidas. Facilitando a análise qualitativa do processo.
+
+	\startplaceformula[reference={eq:hydrogen_production}]
+		\startformula
+			C_{\chemical{H_{2}}} = f \left\lparen T, \unit{ORP}, C_{\chemical{CO_{2}}}, C_{\chemical{CH_{4}}}, t \right\rparen
+		\stopformula
+	\stopplaceformula
+
+	Portanto a \in{Equação}[eq:hydrogen_production] demonstra o comportamento dependente da concentração de hidrogênio \math{C_{\chemical{H_{2}}}} em relação a temperatura \math{T}, o potêncial de oxirredução \chemical{ORP}, as concentrações de dióxido de carbono \math{C_{\chemical{CO_{2}}}} e de metano \math{C_{\chemical{CH_{4}}}} e ao tempo \math{t}.
+
+	\startplacefigure[title={Exemplo de coleta de dados de produção de hidrogênio}, reference={fig:hydrogen_fake_graph}]
+		\startcombination[nx=3, ny=1]
+			{\externalfigure[image/hydrogen_fake_graph_1.png][height=120pt]}{}
+			{\externalfigure[image/hydrogen_fake_graph_2.png][height=120pt]}{}
+			{\externalfigure[image/hydrogen_fake_graph_3.png][height=120pt]}{}
+		\stopcombination
+	\stopplacefigure
+
+	A \in{Figura}[fig:hydrogen_fake_graph] simula a diferença esperada entre bateladas. Nenhuma delas tem a intenção de seguir um planejamento experimental fatorial.
+\stopchapter
+
+\startchapter[title={Possíveis Adições}]
+	Visando aumentar a responsividade do soft sensor, é possivel que futuramente o sistema de medição seja espandido com:
+
+	\startitemize
+		\starthead{Medição do pH} 
+			O \chemical{pH} e ORP podem trabalhar em conjunto como medições complementares e aumentar a quantidade de informações não colineares sobre o sistema.
+		\stophead
+
+		\starthead{Agitação}
+			Agitação é um passo importante para uniformizar a solução e tornar as replicas mais precisas.
+		\stophead
+
+		\starthead{Medir Concentração de Biomassa e Substrato {\emph Offline}}
+			Para o treinamento de soft sensors, assim como o do hidrogênio. Esta aproximação carrega a dificuldade não somente da coleta, como tambem da sincronização dos dados.
+		\stophead
+	\stopitemize
+
+\stopchapter
+
+\startchapter[title={Treinamento com Redes Neurais}]
+	Metodologias que utilizam apredizado de máquina conseguem inferir padrões latentes e permitir predições acuaradas \cite[authoryear][liu_0].
+
+	\startplacefigure[title={Ilustração de uma rede neural simples, {\emph Machine Learning Perceptron}}, reference={fig:mlp}]
+		\externalfigure[image/mlp_algorithm.png][width=250pt]
+	\stopplacefigure
+\stopchapter
+
+\startchapter[title={Treinamento Recorrente}]
+	{\emph Long Short Term Memory} adiciona a persistência dos dados entre as gerações de variáveis de entrada. Portanto é uma rede neura recorrente, ajustável aos requisitos do método de séries temporais.
+
+	\startplacefigure[title={Comparação de algoritmos recorrentes}, reference={fig:recurrent_comparation}]
+		\startcombination[nx=2, ny=1]
+			{\externalfigure[image/rnn_algorithm.png][height=150pt]}{RNN}
+			{\externalfigure[image/lstm_algorithm.png][height=150pt]}{LSTM}
+		\stopcombination
+	\stopplacefigure
+
+	A \in{Figura}[fig:recurrent_comparation] compara as unidades fundamentais de dois algoritmos recorrentes. O {\emph Recurrent Neural Network} e {\emph Long Short Term Memory}.
+\stopchapter
+
+\startchapter[title={Arquitetura Geral}]
+	Coleta de dados, armazenamento, tratamento, treinamento e teste são as etapas mínimas necessárias do projeto.
+
+	\startplacefigure[title={Esquemático do sistema de geração de dados, controle, armazenamento, treinamento e teste}]
+		\externalfigure[image/architecture.png][width={300pt}]
+	\stopplacefigure
+\stopchapter
+
+\startchapter[title={Limitações}]
+	Dadas as característicsa físicas dos sistema existem algumas dificuldades de implementação.
+
+	\startitemize
+		\starthead{Grande quantidade de dados} 
+			Para que o {\emph soft sensor} seja viabilizado tecnicamente a quantidade de experimentos necessária é grande.
+		\stophead
+
+		\starthead{Retreinamento} 
+			O {\emph soft sensor} precisa ser recalibrado assim como outros sensores.
+		\stophead
+
+		\starthead{Interpretabilidade} 
+			A qualidade dos dados obtidos e as variáveis coletadas precisam de alguma forma explicar os resultados.
+		\stophead
+	\stopitemize
+\stopchapter
+
+\startchapter[title={Simulação}]
+	Para complementar os dados experimentais o {\emph Anaerobic Digestion Model No 1} (ADM1) surge como uma alternativa \cite[authoryear][batstone_0]. Assim como seria possivel replicar dados experimentais em torno da faixa de incerteza.
+
+	\noindent Requisitos que inviabilizam parcialmente produzir um gêmeo digital do sistema fermentativo real \cite[authoryear][batstone_0]:
+
+	\startitemize
+		\starthead{Mecanismo de Reação}
+			É necessário ter uma noção mínima dos mecanismos de reação, e rotas para modelar o sistema de forma satisfatória, determinando os rendimentos e coeficientes estequimétricos.
+		\stophead
+
+		\starthead{Aquisição de dados}
+			As constantes cinéticas e limitantes são fundamentais para a aplicação do ADM1, portanto é necessário a determinação destas a partir do sistema real.
+		\stophead
+
+		\starthead{Inibição}
+			Constantes de inibição, são necessários para a determinação das inibições presentes.
+		\stophead
+
+		\starthead{Solver de pH}
+			Para implementação de um solver para pH é preciso da informação das constantes de equilíbrio ácido-base de todos os analitos ionicos presentes.
+		\stophead
+	\stopitemize
+\stopchapter
+
+\startchapter[title={Expectativas}]
+	\startitemize
+		\starthead{Montagem do sistema de monitoramento como um desafio} \stophead
+		\starthead{Treinamento do modelo LSTM facilitado pelas bibliotecas disponíveis} \stophead
+		\starthead{Coeficiente de correlação quadratica alto \math{\gt 0.95} \stophead
+	\stopitemize
 \stopchapter
