@@ -30,56 +30,56 @@
 	Lê-se na \in{Equação}[eq:data_set_train] uma aplicação \math{f} que leva do conjunto \math{X} ao conjunto \math{Y}. Percebe-se implicitamente pela definição apresentada que \math{f} é desconhecida inicialmente, e toda a teoria desenvolvida em torno de \getbuffer[sens] tem por objetivo encontrá-la, mesmo que por trás de uma caixa preta.
 
 	\startitemize
-		\starthead{Multiple linear regression} 
+%		\starthead{Multiple linear regression} 
 			\indentitem Este modelo é considerado estatístico clássico. Baseia-se em um método de ajuste de coeficientes de regressão para uma função linear pré definida da forma da \in{Equação}[eq:regression] \cite[authoryear][ref::wang_0], pautada nos princípios de minimização de erros quadrados.
 
-			\startplaceformula[reference={eq:regression}]
-				\startformula
-					y = \beta_{0} + \sum_{i=1}^{n} \beta_{i} x_{i}
-				\stopformula
-			\stopplaceformula
+%			\startplaceformula[reference={eq:regression}]
+%				\startformula
+%					y = \beta_{0} + \sum_{i=1}^{n} \beta_{i} x_{i}
+%				\stopformula
+%			\stopplaceformula
 
-			O vetor \math{\vec{\beta} = \left\lparen \beta_{0}, \dots, \beta_{n} \right\rparen} na \in{Equação}[eq:regression] é definido de tal forma que a predição de uma coordenada \math{y} de \math{\vec{y}} para \math{\vec{x} = \left\lparen x_1, \dots, x_n \right\rparen} pode ser feita com um erro médio \math{\bar{\epsilon} = 0}. Em que \math{n} é a quantidade de coordenadas de cada amostra em \math{\vec{x}}.
+%			O vetor \math{\vec{\beta} = \left\lparen \beta_{0}, \dots, \beta_{n} \right\rparen} na \in{Equação}[eq:regression] é definido de tal forma que a predição de uma coordenada \math{y} de \math{\vec{y}} para \math{\vec{x} = \left\lparen x_1, \dots, x_n \right\rparen} pode ser feita com um erro médio \math{\bar{\epsilon} = 0}. Em que \math{n} é a quantidade de coordenadas de cada amostra em \math{\vec{x}}.
 
-			Existem outras variantes desse algoritmo para polinômios de graus maiores, assim como para dependência conjunta de mais de um termo, ou seja, à \in{Equação}[eq:regression] adiciona-se termos da forma \math{x_i x_j} no caso de grau \math{2}, mas como essa forma sugere, o modelo não se restringe à dependência linear.
+%			Existem outras variantes desse algoritmo para polinômios de graus maiores, assim como para dependência conjunta de mais de um termo, ou seja, à \in{Equação}[eq:regression] adiciona-se termos da forma \math{x_i x_j} no caso de grau \math{2}, mas como essa forma sugere, o modelo não se restringe à dependência linear.
 
-			Um fator comum dos métodos de regressão é a limitação sobre a postulação de modelos de estrutura simples, suposição de que todas as variáveis de interferência são observáveis e que todas as variáveis podem ser medidas sem erro \cite[authoryear][ref::haenlein_0]. Esses axiomas têm uma relação causal com as restrições sobre aplicações desses métodos.
-		\stophead
+%			Um fator comum dos métodos de regressão é a limitação sobre a postulação de modelos de estrutura simples, suposição de que todas as variáveis de interferência são observáveis e que todas as variáveis podem ser medidas sem erro \cite[authoryear][ref::haenlein_0]. Esses axiomas têm uma relação causal com as restrições sobre aplicações desses métodos.
+%		\stophead
 
-		\starthead{Partial least square}
-			\indentitem Seja \math{P = \left\lbracket \vec{x_{1}} \dots \vec{x_{p}} \right\rbracket \in \reals^{n \times p}} uma matriz de \math{p} variáveis preditoras mensuráveis e \math{R = \left\lbracket \vec{y_{1}} \dots \vec{y_{r}} \right\rbracket \in \reals^{n \times r}} uma matriz de \math{r} variáveis resposta também mensuráveis, em \math{n} observações, todas elas centralizadas. Portanto as coordenadas de entrada e saída são vetores \math{\vec{x} = \left\lparen x_{1}, \dots, x_{p}\right\rparen} e \math{\vec{y} = \left\lparen y_{1}, \dots, y_{r}\right\rparen} respectivamente, cada qual correspondente a uma linha das matrizes mensuráveis.
+%		\starthead{Partial least square}
+%			\indentitem Seja \math{P = \left\lbracket \vec{x_{1}} \dots \vec{x_{p}} \right\rbracket \in \reals^{n \times p}} uma matriz de \math{p} variáveis preditoras mensuráveis e \math{R = \left\lbracket \vec{y_{1}} \dots \vec{y_{r}} \right\rbracket \in \reals^{n \times r}} uma matriz de \math{r} variáveis resposta também mensuráveis, em \math{n} observações, todas elas centralizadas. Portanto as coordenadas de entrada e saída são vetores \math{\vec{x} = \left\lparen x_{1}, \dots, x_{p}\right\rparen} e \math{\vec{y} = \left\lparen y_{1}, \dots, y_{r}\right\rparen} respectivamente, cada qual correspondente a uma linha das matrizes mensuráveis.
 
-			O algoritmo de regressão por mínimos quadrados parciais (PLS-R) apresentado por \cite[authoryears][ref::vinzi_0] assume que exista uma estrutura comum entre esses blocos de variáveis \math{P} e \math{R}. A estrutura é um conjunto de \math{h} vetores ortogonais \math{\left\lbrace \vec{t_{1}} \dots \vec{t_{h}} \right\rbrace} formando \math{n} combinações lineares das coordenadas de entrada, uma para cada observação, agrupados em uma matriz \math{T_{h} = \left\lbracket \vec{t_{1}} \dots \vec{t_{h}} \right\rbracket \in \reals^{n \times h}}. Em contraste com as matrizes de valores mensuráveis, estão as matrizes modeladas \math{X} e \math{Y}.
+%			O algoritmo de regressão por mínimos quadrados parciais (PLS-R) apresentado por \cite[authoryears][ref::vinzi_0] assume que exista uma estrutura comum entre esses blocos de variáveis \math{P} e \math{R}. A estrutura é um conjunto de \math{h} vetores ortogonais \math{\left\lbrace \vec{t_{1}} \dots \vec{t_{h}} \right\rbrace} formando \math{n} combinações lineares das coordenadas de entrada, uma para cada observação, agrupados em uma matriz \math{T_{h} = \left\lbracket \vec{t_{1}} \dots \vec{t_{h}} \right\rbracket \in \reals^{n \times h}}. Em contraste com as matrizes de valores mensuráveis, estão as matrizes modeladas \math{X} e \math{Y}.
 
-			\startplaceformula[reference={eq:pls_matrices}]
-				\startformula
-					X = T_{h} P_{h} + E_{h} \breakhere
-					Y = T_{h} C_{h} + F_{h}
-				\stopformula
-			\stopplaceformula
+%			\startplaceformula[reference={eq:pls_matrices}]
+%				\startformula
+%					X = T_{h} P_{h} + E_{h} \breakhere
+%					Y = T_{h} C_{h} + F_{h}
+%				\stopformula
+%			\stopplaceformula
 
-			Na \in{Equação}[eq:pls_matrices] \math{X} é a matriz preditiva e \math{Y} a matriz resposta, onde \math{P_{h} = \left\lbracket \vec{p_{1}} \dots \vec{p_{h}} \right\rbracket \in \reals^{p \times h}} é a matriz {\emph \math{X}-loading}. \math{C_{h} = \left\lbracket \vec{c_{1}} \dots \vec{c_{h}} \right\rbracket \in \reals^{r \times h}} a matriz peso para os vetores da matriz resposta. \math{E_{h}} e \math{F_{h}} são matrizes residuais, responsáveis por aproximar os erros.
+%			Na \in{Equação}[eq:pls_matrices] \math{X} é a matriz preditiva e \math{Y} a matriz resposta, onde \math{P_{h} = \left\lbracket \vec{p_{1}} \dots \vec{p_{h}} \right\rbracket \in \reals^{p \times h}} é a matriz {\emph \math{X}-loading}. \math{C_{h} = \left\lbracket \vec{c_{1}} \dots \vec{c_{h}} \right\rbracket \in \reals^{r \times h}} a matriz peso para os vetores da matriz resposta. \math{E_{h}} e \math{F_{h}} são matrizes residuais, responsáveis por aproximar os erros.
 
-			A solução acontece de maneira iterativa, primeiramente escolhe-se o valor inicial \math{\vec{u_{1}}} a partir da matriz resposta (pode-se pensar em \math{\vec{y_{1}}}). Não é necessário que o primeiro componente seja a primeira coluna da matriz resposta \math{R}, ou que seja um membro de \math{R}, uma alternativa seria utilizar uma combinação linear de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} chamada {\emph Principal Component Analysis}. A seguir, obtém-se o vetor peso \math{\vec{a_{1}} = \left\lparen a_{11} \dots a_{p1} \right\rparen} com a regressão de \math{\left\lbrace \vec{x_{1}} \dots \vec{x_{p}} \right\rbrace} sobre \math{\vec{u_{1}}}. Depois de normalizar \math{\vec{a_{1}}}, aproxima-se valores \math{\vec{t_{1}} = \left\lparen t_{11}, \dots, t_{n1} \right\rparen} pelos coeficientes de regressão das linhas da matriz \math{X} sobre \math{\vec{a_{1}}}, com finalidade de criar o vetor peso \math{\vec{c_{1}} = \left\lparen c_{11}, \dots, c_{r1} \right\rparen} por regressão de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} sobre \math{\vec{t_{1}}}. Finalmente, a iteração termina com a aproximação de \math{\vec{u_{1}}}, utilizando regressão das linhas da matriz \math{Y} sobre \math{\vec{c_{1}}}. Na \in{Tabela}[fig:pls_algorithm] vê-se o algoritmo na prática, assim como apresentado por \cite[authoryears][ref::vinzi_0].
+%			A solução acontece de maneira iterativa, primeiramente escolhe-se o valor inicial \math{\vec{u_{1}}} a partir da matriz resposta (pode-se pensar em \math{\vec{y_{1}}}). Não é necessário que o primeiro componente seja a primeira coluna da matriz resposta \math{R}, ou que seja um membro de \math{R}, uma alternativa seria utilizar uma combinação linear de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} chamada {\emph Principal Component Analysis}. A seguir, obtém-se o vetor peso \math{\vec{a_{1}} = \left\lparen a_{11} \dots a_{p1} \right\rparen} com a regressão de \math{\left\lbrace \vec{x_{1}} \dots \vec{x_{p}} \right\rbrace} sobre \math{\vec{u_{1}}}. Depois de normalizar \math{\vec{a_{1}}}, aproxima-se valores \math{\vec{t_{1}} = \left\lparen t_{11}, \dots, t_{n1} \right\rparen} pelos coeficientes de regressão das linhas da matriz \math{X} sobre \math{\vec{a_{1}}}, com finalidade de criar o vetor peso \math{\vec{c_{1}} = \left\lparen c_{11}, \dots, c_{r1} \right\rparen} por regressão de \math{\left\lbrace \vec{y_{1}} \dots \vec{y_{r}} \right\rbrace} sobre \math{\vec{t_{1}}}. Finalmente, a iteração termina com a aproximação de \math{\vec{u_{1}}}, utilizando regressão das linhas da matriz \math{Y} sobre \math{\vec{c_{1}}}. Na \in{Tabela}[fig:pls_algorithm] vê-se o algoritmo na prática, assim como apresentado por \cite[authoryears][ref::vinzi_0].
 
-			\startplacetable[title={Algorítimo PLS-R \cite[authoryear][ref::vinzi_0]}, reference={fig:pls_algorithm}]
-				\starttabulate[|l|]
-					\NC \math{E_{0} = X} \NR
-					\NC \math{F_{0} = Y} \NR
-					\NC \math{u_{1} = PCA(Y)} \NR
-					\NC while \math{\unit{erro} > \unit{tolerância}} \NR
-					\NC \hskip{2em}\math{a_{1} = \frac{E_{0} u_{1}}{u_{1} u_{1}^{T}}} \NR
-					\NC \hskip{2em}\math{t_{1} = \frac{E_{0} u_{1}}{a_{1} a_{1}^{T}}} \NR
-					\NC \hskip{2em}\math{c_{1} = \frac{F_{0} t_{1}}{t_{1} t_{1}^{T}}} \NR
-					\NC \hskip{2em}\math{u_{1} = \frac{F_{0} c_{1}}{c_{1} c_{1}^{T}}} \NR
-					\NC \math{p_{1} = \frac{E_{0} t_{1}}{t_{1} t_{1}^{T}}} \NR
-					\NC \math{E_{1} = E_{0} - t_{1} p_{1}^{T}} \NR
-					\NC \math{F_{1} = F_{0} - t_{1} c_{1}^{T}} \NR
-				\stoptabulate
-			\stopplacetable
+%			\startplacetable[title={Algorítimo PLS-R \cite[authoryear][ref::vinzi_0]}, reference={fig:pls_algorithm}]
+%				\starttabulate[|l|]
+%					\NC \math{E_{0} = X} \NR
+%					\NC \math{F_{0} = Y} \NR
+%					\NC \math{u_{1} = PCA(Y)} \NR
+%					\NC while \math{\unit{erro} > \unit{tolerância}} \NR
+%					\NC \hskip{2em}\math{a_{1} = \frac{E_{0} u_{1}}{u_{1} u_{1}^{T}}} \NR
+%					\NC \hskip{2em}\math{t_{1} = \frac{E_{0} u_{1}}{a_{1} a_{1}^{T}}} \NR
+%					\NC \hskip{2em}\math{c_{1} = \frac{F_{0} t_{1}}{t_{1} t_{1}^{T}}} \NR
+%					\NC \hskip{2em}\math{u_{1} = \frac{F_{0} c_{1}}{c_{1} c_{1}^{T}}} \NR
+%					\NC \math{p_{1} = \frac{E_{0} t_{1}}{t_{1} t_{1}^{T}}} \NR
+%					\NC \math{E_{1} = E_{0} - t_{1} p_{1}^{T}} \NR
+%					\NC \math{F_{1} = F_{0} - t_{1} c_{1}^{T}} \NR
+%				\stoptabulate
+%			\stopplacetable
 
-			Ao final desse processo têm-se os membros \math{\vec{t_{1}}} e \math{\vec{c_{1}}} das matrizes \math{T_{h}} e \math{C_{h}} respectivamente. Para calcular \math{\vec{p_{1}}} de \math{P_{h}} basta fazer a regressão de \math{\vec{x_{1}}} em \math{\vec{t_{1}}}. Assim, a primeira coluna de cada matriz da \in{Equação}[eq:pls_matrices] foram obtidas, o algoritmo para as próximas colunas é análogo.
-		\stophead
+%			Ao final desse processo têm-se os membros \math{\vec{t_{1}}} e \math{\vec{c_{1}}} das matrizes \math{T_{h}} e \math{C_{h}} respectivamente. Para calcular \math{\vec{p_{1}}} de \math{P_{h}} basta fazer a regressão de \math{\vec{x_{1}}} em \math{\vec{t_{1}}}. Assim, a primeira coluna de cada matriz da \in{Equação}[eq:pls_matrices] foram obtidas, o algoritmo para as próximas colunas é análogo.
+%		\stophead
 
 		\starthead{Multi-layer perceptron}
 			\indentitem O propósito do método {\emph multi-layer perceptron} (MLP) é construir no mínimo três camadas de neurônios, a primeira sendo a camada de entrada com a mesma quantidade \math{n} de neurônios que coordenadas no vetor de entrada \math{\vec{x} = \left\lparen x_{1}, \dots, x_{n} \right\rparen}. A segunda camada é de dimensão arbitrária \math{m}, possuindo para cada um desses neurônios intermediários, \math{n} pesos \math{w_{ji}}, correspondentes às conexões entre a todos os neurônios da camada anterior, com cada neurônio dessa segunda camada. Portanto a camada tem \math{m \times n} pesos \math{w_{ji}}, cujos valores são obtidos pela \in{Equação}[eq:multilayer_perceptron] sob a aplicação de ativação arbitrária \math{\sigma}, presente para um ajuste fino da imagem da camada. A terceira camada é a saída, e compartilha a mesma dimensão \math{\gamma} que o vetor \math{\vec{y}}. Então, o modelo MLP pode ser considerado como um mapa \math{f} de \math{X} para \math{Y}, com a vantagem de se ajustar a praticamente qualquer funcionalidade interna do sistema, porque o modelo pode expandir-se em quantidade de camadas intermediárias e crescer em complexidade e acurácia \cite[authoryear][ref::funahashi_0].
@@ -159,5 +159,7 @@
 			\math{C_{t}} e \math{H_{t}} utilizam o operador \math{\odot} para multiplicar membro a membro as matrizes de interesse no \in{Sistema}[eq:lstm_hidden]. É possível assumir que \math{H_{t} \in \left\lbracket -1, 1 \right\rbracket} porque \math{O_{t} \in \left\lbracket 0, 1 \right\rbracket} e \math{\tanh \left\lparen C_{t} \right\rparen \in \left\lbracket -1, 1 \right\rbracket}. Isto adiciona uma camada de segurança sobre o problema de explosão de gradiente, que é fonte de erros sistemáticos de algoritmos recorrentes que não possuem essa normalização.
 		\stophead
 	\stopitemize
+
+	Esses métodos matemáticos auxiliam na obtenção de modelos que predizem resultados a partir de dados preditores coletados experimentalmente ou simulados. Portanto é possivel, e vai ser realizado, o desenvolvimento de simulações com a intenção de criar um sistema virtual aproximado de um sistema real, para testar o processo de construção de \plural{\getbuffer[sens]} em cima de dados que tenham um comportamento com respaldo na literatura, isto é, a forma de construção da simulação a ser apresentada é por coleta de dados de constantes e modelos fermentativos a partir da literatura. A seguir este modelo fermentativo e apresentado.
 \stopsection
 

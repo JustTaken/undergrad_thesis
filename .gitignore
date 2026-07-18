@@ -1,4 +1,5 @@
 /*.pdf
 /*.log
 /*.tuc
-/mode/.zig-cache
+/model/.zig-cache
+/model/zig-out
